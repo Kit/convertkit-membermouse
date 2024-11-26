@@ -171,7 +171,7 @@ class BundleTagCest
 	/**
 	 * Test that the member has a tag removed when their bundle is cancelled.
 	 *
-	 * @since   1.X.X
+	 * @since   1.2.8
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */

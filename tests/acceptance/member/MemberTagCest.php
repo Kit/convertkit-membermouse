@@ -160,7 +160,7 @@ class MemberTagCest
 	/**
 	 * Test that the member has a tag removed when their membership level is cancelled.
 	 *
-	 * @since   1.X.X
+	 * @since   1.2.8
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -263,7 +263,7 @@ class MemberTagCest
 	/**
 	 * Test that the member has a tag removed when their membership is deleted.
 	 *
-	 * @since   1.X.X
+	 * @since   1.2.8
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */

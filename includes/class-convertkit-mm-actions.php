@@ -328,7 +328,7 @@ class ConvertKit_MM_Actions {
 	/**
 	 * Initializes the API, removing the Tag ID from the subscriber on Kit.
 	 *
-	 * @since   1.X.X
+	 * @since   1.2.8
 	 *
 	 * @param   string $email          Email Address.
 	 * @param   int    $tag_id         Tag ID.
