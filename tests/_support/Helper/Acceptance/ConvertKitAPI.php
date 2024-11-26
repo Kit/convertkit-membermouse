@@ -69,8 +69,7 @@ class ConvertKitAPI extends \Codeception\Module
 			$I->assertEquals($firstName, $results['subscribers'][0]['first_name']);
 		}
 
-		// Return subscriber ID.
-		return $results['subscribers'][0]['id'];
+		return $results['subscribers'][0];
 	}
 
 	/**
@@ -175,6 +174,32 @@ class ConvertKitAPI extends \Codeception\Module
 
 		// Check no subscribers are returned by this request.
 		$I->assertEquals(0, $results['pagination']['total_count']);
+	}
+
+	/**
+	 * Check the subscriber array's custom field data is valid.
+	 *
+	 * @since 	1.2.8
+	 *
+	 * @param   AcceptanceTester $I              AcceptanceTester.
+	 * @param   array            $subscriber     Subscriber from API.
+	 */
+	public function apiCustomFieldDataIsValid($I, $subscriber)
+	{
+		$I->assertEquals($subscriber['fields']['last_name'], 'Last');
+	}
+
+	/**
+	 * Check the subscriber array's custom field data is empty.
+	 *
+	 * @since 	1.2.8
+	 *
+	 * @param   AcceptanceTester $I             AcceptanceTester.
+	 * @param   array            $subscriber    Subscriber from API.
+	 */
+	public function apiCustomFieldDataIsEmpty($I, $subscriber)
+	{
+		$I->assertEquals($subscriber['fields']['last_name'], '');
 	}
 
 	/**

@@ -54,10 +54,10 @@ class ProductTagCest
 		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -92,7 +92,7 @@ class ProductTagCest
 		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
 
 		// Check subscriber does not exist.
-		$subscriberID = $I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 	}
 
 	/**
