@@ -200,7 +200,7 @@ class MemberMouse extends \Codeception\Module
 	{
 		// Cancel the user's bundle.
 		$I->amOnAdminPage('admin.php?page=manage_members');
-		$I->click($emailAddress);
+		$I->click('a[title="' . $emailAddress . '"]');
 		$I->click('Access Rights');
 		$I->click('a[title="Cancel ' . $bundleName . '"]');
 
