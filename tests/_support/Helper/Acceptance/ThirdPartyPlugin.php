@@ -49,6 +49,10 @@ class ThirdPartyPlugin extends \Codeception\Module
 	public function deactivateThirdPartyPlugin($I, $name)
 	{
 		// Login as the Administrator.
+		$I->loginAsAdmin();
+
+		/*
+		// Login as the Administrator.
 		$I->amOnPage('wp-login.php');
         $I->waitForElement('#user_login', 10);
         $I->waitForElement('#user_pass', 10);
@@ -56,13 +60,7 @@ class ThirdPartyPlugin extends \Codeception\Module
         $I->fillField('#user_login', $_ENV['TEST_SITE_ADMIN_USERNAME']);
         $I->fillField('#user_pass', $_ENV['TEST_SITE_ADMIN_PASSWORD']);
         $I->click('#wp-submit');
-
-		// Wait for the MemberMouse dashboard to load.
-		switch ( $name ) {
-			case 'membermouse-platform':
-				$I->waitForElementVisible('#mm-view-container');
-				break;
-		}
+        */
 
 		// Go to the Plugins screen in the WordPress Administration interface.
 		$I->amOnPluginsPage();
