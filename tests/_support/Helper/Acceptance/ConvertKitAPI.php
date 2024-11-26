@@ -179,11 +179,11 @@ class ConvertKitAPI extends \Codeception\Module
 	/**
 	 * Check the subscriber array's custom field data is valid.
 	 *
-	 * @since 	1.2.8
+	 * @since   1.2.8
 	 *
 	 * @param   AcceptanceTester $I              AcceptanceTester.
 	 * @param   array            $subscriber     Subscriber from API.
-	 * @param 	array 			 $customFields 	 Custom Field key/value pairs to check.
+	 * @param   array            $customFields   Custom Field key/value pairs to check.
 	 */
 	public function apiCustomFieldDataIsValid($I, $subscriber, $customFields)
 	{
@@ -195,11 +195,11 @@ class ConvertKitAPI extends \Codeception\Module
 	/**
 	 * Check the subscriber array's custom field data is empty.
 	 *
-	 * @since 	1.2.8
+	 * @since   1.2.8
 	 *
-	 * @param   AcceptanceTester $I             	AcceptanceTester.
-	 * @param   array            $subscriber    	Subscriber from API.
-	 * @param 	array 			 $customFieldKeys 	Custom Field Keys to check they are empty.
+	 * @param   AcceptanceTester $I                 AcceptanceTester.
+	 * @param   array            $subscriber        Subscriber from API.
+	 * @param   array            $customFieldKeys   Custom Field Keys to check they are empty.
 	 */
 	public function apiCustomFieldDataIsEmpty($I, $subscriber, $customFieldKeys)
 	{

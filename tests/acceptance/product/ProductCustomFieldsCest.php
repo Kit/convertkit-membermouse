@@ -42,7 +42,7 @@ class ProductCustomFieldsCest
 			$I,
 			[
 				'convertkit-mapping-product-1' => $_ENV['CONVERTKIT_API_TAG_ID'],
-				'custom_field_last_name' 	   => 'last_name',
+				'custom_field_last_name'       => 'last_name',
 			]
 		);
 
@@ -62,9 +62,13 @@ class ProductCustomFieldsCest
 		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Check that the subscriber has the custom field data.
-		$I->apiCustomFieldDataIsValid($I, $subscriber, [
-			'last_name' => 'Last',
-		]);
+		$I->apiCustomFieldDataIsValid(
+			$I,
+			$subscriber,
+			[
+				'last_name' => 'Last',
+			]
+		);
 	}
 
 	/**

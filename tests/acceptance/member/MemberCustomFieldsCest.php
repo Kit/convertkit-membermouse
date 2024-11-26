@@ -38,8 +38,8 @@ class MemberCustomFieldsCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'convertkit-mapping-1' => $_ENV['CONVERTKIT_API_TAG_ID'],
-				'custom_field_last_name' 				 => 'last_name',
+				'convertkit-mapping-1'   => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'custom_field_last_name' => 'last_name',
 			]
 		);
 
@@ -56,9 +56,13 @@ class MemberCustomFieldsCest
 		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Check that the subscriber has the custom field data.
-		$I->apiCustomFieldDataIsValid($I, $subscriber, [
-			'last_name' => 'Last',
-		]);
+		$I->apiCustomFieldDataIsValid(
+			$I,
+			$subscriber,
+			[
+				'last_name' => 'Last',
+			]
+		);
 	}
 
 	/**
@@ -87,7 +91,7 @@ class MemberCustomFieldsCest
 			$I,
 			[
 				'convertkit-mapping-' . $levelID => $_ENV['CONVERTKIT_API_TAG_ID'],
-				'custom_field_last_name' 				 => 'last_name',
+				'custom_field_last_name'         => 'last_name',
 			]
 		);
 
@@ -108,9 +112,13 @@ class MemberCustomFieldsCest
 		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Check that the subscriber has the custom field data.
-		$I->apiCustomFieldDataIsValid($I, $subscriber, [
-			'last_name' => 'Last',
-		]);
+		$I->apiCustomFieldDataIsValid(
+			$I,
+			$subscriber,
+			[
+				'last_name' => 'Last',
+			]
+		);
 	}
 
 	/**

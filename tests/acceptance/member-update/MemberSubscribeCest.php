@@ -37,8 +37,8 @@ class MemberSubscribeCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'convertkit-mapping-1' 		=> $_ENV['CONVERTKIT_API_TAG_ID'],
-				'custom_field_last_name' 	=> 'last_name',
+				'convertkit-mapping-1'   => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'custom_field_last_name' => 'last_name',
 			]
 		);
 
@@ -64,9 +64,13 @@ class MemberSubscribeCest
 		$I->assertEquals($subscriber['id'], $subscriberAfterNewEmailAddress['id']);
 
 		// Check that the subscriber has the custom field data.
-		$I->apiCustomFieldDataIsValid($I, $subscriber, [
-			'last_name' => $newLastName,
-		]);
+		$I->apiCustomFieldDataIsValid(
+			$I,
+			$subscriber,
+			[
+				'last_name' => $newLastName,
+			]
+		);
 	}
 
 	/**
