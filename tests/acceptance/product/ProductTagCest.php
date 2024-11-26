@@ -93,6 +93,9 @@ class ProductTagCest
 
 		// Check subscriber does not exist.
 		$subscriberID = $I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+
+		// Logout.
+		$I->memberMouseLogOut($I);
 	}
 
 	/**
