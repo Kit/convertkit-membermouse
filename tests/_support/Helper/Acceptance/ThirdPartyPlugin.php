@@ -55,7 +55,7 @@ class ThirdPartyPlugin extends \Codeception\Module
         $I->waitForElement('#wp-submit', 10);
         $I->fillField('#user_login', $_ENV['TEST_SITE_ADMIN_USERNAME']);
         $I->fillField('#user_pass', $_ENV['TEST_SITE_ADMIN_PASSWORD']);
-        $I->see('XXXXX');
+        $I->click('#wp-submit');
 
 		// Wait for the MemberMouse dashboard to load.
 		switch ( $name ) {
