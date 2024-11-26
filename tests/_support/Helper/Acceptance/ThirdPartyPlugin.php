@@ -48,6 +48,8 @@ class ThirdPartyPlugin extends \Codeception\Module
 	 */
 	public function deactivateThirdPartyPlugin($I, $name)
 	{
+		$I->wait(2);
+
 		// Login as the Administrator.
 		$I->loginAsAdmin();
 
