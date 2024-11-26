@@ -401,7 +401,7 @@ class ConvertKit_MM_Admin {
 				CONVERTKIT_MM_NAME . '-ck-mapping-membership-levels',
 				array(
 					'key'          => $key,
-					'type'		   => __( 'Level', 'convertkit-mm' ),
+					'type'         => __( 'Level', 'convertkit-mm' ),
 
 					'name'         => 'convertkit-mapping-' . $key,
 					'value'        => $this->settings->get_membership_level_mapping( $key ),
@@ -460,7 +460,7 @@ class ConvertKit_MM_Admin {
 				CONVERTKIT_MM_NAME . '-ck-mapping-products',
 				array(
 					'key'     => $key,
-					'type'	  => __( 'Product', 'convertkit-mm' ),
+					'type'    => __( 'Product', 'convertkit-mm' ),
 
 					'name'    => 'convertkit-mapping-product-' . $key,
 					'value'   => $this->settings->get_product_mapping( $key ),
@@ -517,7 +517,7 @@ class ConvertKit_MM_Admin {
 				CONVERTKIT_MM_NAME . '-ck-mapping-bundles',
 				array(
 					'key'          => $key,
-					'type'		   => __( 'Bundle', 'convertkit-mm' ),
+					'type'         => __( 'Bundle', 'convertkit-mm' ),
 
 					'name'         => 'convertkit-mapping-bundle-' . $key,
 					'value'        => $this->settings->get_bundle_mapping( $key ),
@@ -772,12 +772,12 @@ class ConvertKit_MM_Admin {
 	 *
 	 * @since   1.3.0
 	 *
-	 * @param   string      $name            		Name.
-	 * @param   string      $value           		Value.
-	 * @param   array       $options         		Options / Choices.
-	 * @param   bool|string $label           		Label.
-	 * @param 	bool 		$show_remove_options 	Show 'Remove Tag' options.
-	 * @return  string                           	HTML Select Field
+	 * @param   string      $name                   Name.
+	 * @param   string      $value                  Value.
+	 * @param   array       $options                Options / Choices.
+	 * @param   bool|string $label                  Label.
+	 * @param   bool        $show_remove_options    Show 'Remove Tag' options.
+	 * @return  string                              HTML Select Field
 	 */
 	private function get_select_field( $name, $value = '', $options = array(), $label = false, $show_remove_options = false ) {
 
