@@ -54,6 +54,12 @@ class ThirdPartyPlugin extends \Codeception\Module
 		$I->fillField('#user_login', $_ENV['TEST_SITE_ADMIN_USERNAME']);
 		$I->waitForElement('#user_pass', 10);
 		$I->fillField('#user_pass', $_ENV['TEST_SITE_ADMIN_PASSWORD']);
+
+		// Wait and complete the password field again, because sometimes it doesn't
+		// get filled the first time.
+		$I->wait(1);
+		$I->fillField('#user_pass', $_ENV['TEST_SITE_ADMIN_PASSWORD']);
+
 		$I->click('#wp-submit');
 
 		// Wait for admin interface to load.
