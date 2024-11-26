@@ -23,8 +23,8 @@ class MemberSubscribeCest
 	}
 
 	/**
-	 * Test that the member is tagged with the configured "apply tag on add"
-	 * setting when added to a Membership Level.
+	 * Test that the member's name, email address and custom field data are updated in Kit when their
+	 * information is updated in MemberMouse.
 	 *
 	 * @since   1.2.2
 	 *
@@ -37,7 +37,8 @@ class MemberSubscribeCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'convertkit-mapping-1' => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'convertkit-mapping-1' 		=> $_ENV['CONVERTKIT_API_TAG_ID'],
+				'custom_field_last_name' 	=> 'last_name',
 			]
 		);
 
@@ -52,14 +53,20 @@ class MemberSubscribeCest
 
 		// Change the member's first name and email address.
 		$newFirstName    = 'New First Name';
+		$newLastName     = 'New Last Name';
 		$newEmailAddress = 'new-' . $emailAddress;
-		$I->memberMouseUpdateMember($I, $emailAddress, $newEmailAddress, $newFirstName);
+		$I->memberMouseUpdateMember($I, $emailAddress, $newEmailAddress, $newFirstName, $newLastName);
 
 		// Check the subscriber's email address was updated in ConvertKit.
 		$subscriberAfterNewEmailAddress = $I->apiCheckSubscriberExists($I, $newEmailAddress, $newFirstName);
 
 		// Confirm the subscriber ID is the same.
 		$I->assertEquals($subscriber['id'], $subscriberAfterNewEmailAddress['id']);
+
+		// Check that the subscriber has the custom field data.
+		$I->apiCustomFieldDataIsValid($I, $subscriber, [
+			'last_name' => $newLastName,
+		]);
 	}
 
 	/**

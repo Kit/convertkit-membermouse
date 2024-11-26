@@ -183,10 +183,13 @@ class ConvertKitAPI extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I              AcceptanceTester.
 	 * @param   array            $subscriber     Subscriber from API.
+	 * @param 	array 			 $customFields 	 Custom Field key/value pairs to check.
 	 */
-	public function apiCustomFieldDataIsValid($I, $subscriber)
+	public function apiCustomFieldDataIsValid($I, $subscriber, $customFields)
 	{
-		$I->assertEquals($subscriber['fields']['last_name'], 'Last');
+		foreach ($customFields as $key => $value) {
+			$I->assertEquals($subscriber['fields'][ $key ], $value);
+		}
 	}
 
 	/**
@@ -194,12 +197,15 @@ class ConvertKitAPI extends \Codeception\Module
 	 *
 	 * @since 	1.2.8
 	 *
-	 * @param   AcceptanceTester $I             AcceptanceTester.
-	 * @param   array            $subscriber    Subscriber from API.
+	 * @param   AcceptanceTester $I             	AcceptanceTester.
+	 * @param   array            $subscriber    	Subscriber from API.
+	 * @param 	array 			 $customFieldKeys 	Custom Field Keys to check they are empty.
 	 */
-	public function apiCustomFieldDataIsEmpty($I, $subscriber)
+	public function apiCustomFieldDataIsEmpty($I, $subscriber, $customFieldKeys)
 	{
-		$I->assertEquals($subscriber['fields']['last_name'], '');
+		foreach ($customFieldKeys as $key) {
+			$I->assertEquals($subscriber['fields'][ $key ], '');
+		}
 	}
 
 	/**
