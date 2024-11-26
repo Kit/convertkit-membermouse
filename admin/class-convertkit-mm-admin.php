@@ -396,10 +396,10 @@ class ConvertKit_MM_Admin {
 			CONVERTKIT_MM_NAME,
 			CONVERTKIT_MM_NAME . '-custom-fields',
 			array(
-				'key'          => 'last_name',
-				'name'         => 'custom_field_last_name',
-				'value'        => $this->settings->get_by_key( 'custom_field_last_name' ),
-				'options'      => $this->custom_fields->get(),
+				'key'     => 'last_name',
+				'name'    => 'custom_field_last_name',
+				'value'   => $this->settings->get_by_key( 'custom_field_last_name' ),
+				'options' => $this->custom_fields->get(),
 			)
 		);
 
@@ -825,16 +825,18 @@ class ConvertKit_MM_Admin {
 		$options = array();
 		foreach ( $args['options'] as $custom_field_id => $custom_field ) {
 			$options[ $custom_field['key'] ] = array(
-				'id' => $custom_field['key'],
+				'id'   => $custom_field['key'],
 				'name' => $custom_field['label'],
 			);
 		}
 
-		echo $this->get_select_field(
+		$html = $this->get_select_field(
 			$args['name'],
 			$args['value'],
 			$options
-		); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		);
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	}
 

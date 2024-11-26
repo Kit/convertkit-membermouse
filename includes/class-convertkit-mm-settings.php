@@ -362,16 +362,16 @@ class ConvertKit_MM_Settings {
 
 		$defaults = array(
 			// OAuth.
-			'access_token'  => '', // string.
-			'refresh_token' => '', // string.
-			'token_expires' => '', // integer.
+			'access_token'           => '', // string.
+			'refresh_token'          => '', // string.
+			'token_expires'          => '', // integer.
 
 			// API Key. Retained if needed for backward compat.
 			// Hyphen is deliberate; this is how the setting has always been stored.
-			'api-key'       => '', // string.
+			'api-key'                => '', // string.
 
 			// Settings.
-			'debug'         => '', // blank|on.
+			'debug'                  => '', // blank|on.
 
 			// Custom Fields.
 			'custom_field_last_name' => '',

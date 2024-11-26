@@ -16,8 +16,8 @@ class ConvertKit_MM_Resource_Custom_Fields extends ConvertKit_MM_Resource {
 
 	/**
 	 * Holds the Settings Key that stores site wide ConvertKit settings
-	 * 
-	 * @since 	1.2.8
+	 *
+	 * @since   1.2.8
 	 *
 	 * @var     string
 	 */
@@ -25,8 +25,8 @@ class ConvertKit_MM_Resource_Custom_Fields extends ConvertKit_MM_Resource {
 
 	/**
 	 * The type of resource
-	 * 
-	 * @since 	1.2.8
+	 *
+	 * @since   1.2.8
 	 *
 	 * @var     string
 	 */
