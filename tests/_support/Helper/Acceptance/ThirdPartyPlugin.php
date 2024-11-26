@@ -51,6 +51,8 @@ class ThirdPartyPlugin extends \Codeception\Module
 		// Login as the Administrator.
 		$I->loginAsAdmin();
 
+		$I->see('XXX');
+
 		// Wait for the MemberMouse dashboard to load.
 		switch ( $name ) {
 			case 'membermouse-platform':

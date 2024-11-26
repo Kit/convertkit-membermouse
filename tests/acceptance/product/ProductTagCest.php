@@ -106,7 +106,6 @@ class ProductTagCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
-		$I->see('XXX');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
