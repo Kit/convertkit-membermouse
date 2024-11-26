@@ -49,23 +49,15 @@ class ThirdPartyPlugin extends \Codeception\Module
 	public function deactivateThirdPartyPlugin($I, $name)
 	{
 		// Login as the Administrator.
-		$I->loginAsAdmin();
-
-		/*
-		// This works.
-		// Login as the Administrator.
 		$I->amOnPage('wp-login.php');
         $I->waitForElement('#user_login', 10);
         $I->fillField('#user_login', $_ENV['TEST_SITE_ADMIN_USERNAME']);
         $I->waitForElement('#user_pass', 10);
         $I->fillField('#user_pass', $_ENV['TEST_SITE_ADMIN_PASSWORD']);
-        $I->wait(1);
-        $I->fillField('#user_pass', $_ENV['TEST_SITE_ADMIN_PASSWORD']);
         $I->click('#wp-submit');
 
         // Wait for admin interface to load.
         $I->waitForElementVisible('body.wp-admin');
-        */
 
 		// Go to the Plugins screen in the WordPress Administration interface.
 		$I->amOnPluginsPage();
