@@ -51,9 +51,10 @@ class ThirdPartyPlugin extends \Codeception\Module
 		// Login as the Administrator.
 		$I->amOnPage('wp-login.php');
         $I->waitForElement('#user_login', 10);
-        $I->waitForElement('#user_pass', 10);
-        $I->waitForElement('#wp-submit', 10);
         $I->fillField('#user_login', $_ENV['TEST_SITE_ADMIN_USERNAME']);
+        $I->waitForElement('#user_pass', 10);
+        $I->fillField('#user_pass', $_ENV['TEST_SITE_ADMIN_PASSWORD']);
+        $I->wait(1);
         $I->fillField('#user_pass', $_ENV['TEST_SITE_ADMIN_PASSWORD']);
         $I->click('#wp-submit');
 
