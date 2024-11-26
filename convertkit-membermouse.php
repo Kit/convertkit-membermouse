@@ -56,6 +56,7 @@ if ( ! class_exists( 'ConvertKit_Log' ) ) {
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-actions.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-api.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-resource.php';
+require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-resource-custom-fields.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-resource-tags.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-settings.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm.php';

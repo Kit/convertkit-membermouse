@@ -72,6 +72,9 @@ class ConvertKit_MM_Actions {
 	 */
 	public function add_member( $member_data ) {
 
+		error_log( 'add_member' );
+		error_log( print_r( $member_data, true ) );
+
 		// Bail if no membership level data exists.
 		if ( ! isset( $member_data['membership_level'] ) ) {
 			return;
@@ -81,6 +84,7 @@ class ConvertKit_MM_Actions {
 		$user_email = $member_data['email'];
 		$first_name = rawurlencode( $member_data['first_name'] );
 		$tag_id     = $this->settings->get_membership_level_mapping( $member_data['membership_level'] );
+		$custom_fields = $this->get_custom_fields_data( $member_data );
 
 		// Bail if no tag mapping exists, as this means we don't need to tag the subscriber.
 		if ( empty( $tag_id ) ) {
@@ -88,7 +92,7 @@ class ConvertKit_MM_Actions {
 		}
 
 		// Subscribe and tag.
-		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
+		$this->add_tag_to_user( $user_email, $first_name, $tag_id, $custom_fields );
 		convertkit_mm_log( 'tag', 'Add tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
 
 	}
@@ -101,6 +105,9 @@ class ConvertKit_MM_Actions {
 	 * @param   array $member_data    Member data.
 	 */
 	public function update_member( $member_data ) {
+
+		error_log( 'update_member' );
+		error_log( print_r( $member_data, true ) );
 
 		// Bail if no change of first name or email address occured.
 		if ( ! array_key_exists( 'last_email', $member_data ) && ! array_key_exists( 'last_first_name', $member_data ) ) {
@@ -121,6 +128,9 @@ class ConvertKit_MM_Actions {
 	 */
 	public function status_change_member( $member_data ) {
 
+		error_log( 'status_change_member' );
+		error_log( print_r( $member_data, true ) );
+
 		// Bail if no membership level data exists.
 		if ( ! isset( $member_data['membership_level'] ) ) {
 			return;
@@ -138,6 +148,7 @@ class ConvertKit_MM_Actions {
 		$user_email = $member_data['email'];
 		$first_name = rawurlencode( $member_data['first_name'] );
 		$tag_id     = $this->settings->get_membership_level_cancellation_mapping( $member_data['membership_level'] );
+		$custom_fields = $this->get_custom_fields_data( $member_data );
 
 		// Bail if no tag mapping exists, as this means we don't need to tag the subscriber.
 		if ( empty( $tag_id ) ) {
@@ -145,7 +156,7 @@ class ConvertKit_MM_Actions {
 		}
 
 		// Subscribe and tag.
-		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
+		$this->add_tag_to_user( $user_email, $first_name, $tag_id, $custom_fields );
 		convertkit_mm_log( 'tag', 'Delete tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
 
 	}
@@ -159,6 +170,9 @@ class ConvertKit_MM_Actions {
 	 */
 	public function delete_member( $member_data ) {
 
+		error_log( 'delete_member' );
+		error_log( print_r( $member_data, true ) );
+
 		// Bail if no membership level data exists.
 		if ( ! isset( $member_data['membership_level'] ) ) {
 			return;
@@ -168,6 +182,7 @@ class ConvertKit_MM_Actions {
 		$user_email = $member_data['email'];
 		$first_name = rawurlencode( $member_data['first_name'] );
 		$tag_id     = $this->settings->get_membership_level_cancellation_mapping( $member_data['membership_level'] );
+		$custom_fields = $this->get_custom_fields_data( $member_data );
 
 		// Bail if no tag mapping exists, as this means we don't need to tag the subscriber.
 		if ( empty( $tag_id ) ) {
@@ -175,7 +190,7 @@ class ConvertKit_MM_Actions {
 		}
 
 		// Subscribe and tag.
-		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
+		$this->add_tag_to_user( $user_email, $first_name, $tag_id, $custom_fields );
 		convertkit_mm_log( 'tag', 'Delete tag ' . $tag_id . ' to user ' . $user_email . ' (' . $user_name . ')' );
 
 	}
@@ -190,10 +205,14 @@ class ConvertKit_MM_Actions {
 	 */
 	public function purchase_product( $purchase_data ) {
 
+		error_log( 'purchase_product' );
+		error_log( print_r( $purchase_data, true ) );
+
 		// Fetch data from purchase array.
 		$user_email = $purchase_data['email'];
 		$first_name = rawurlencode( $purchase_data['first_name'] );
 		$tag_id     = $this->settings->get_product_mapping( $purchase_data['product_id'] );
+		$custom_fields = $this->get_custom_fields_data( $purchase_data );
 
 		// If no tag assigned to this Product, bail.
 		if ( empty( $tag_id ) ) {
@@ -201,7 +220,7 @@ class ConvertKit_MM_Actions {
 		}
 
 		// Assign tag to subscriber in ConvertKit.
-		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
+		$this->add_tag_to_user( $user_email, $first_name, $tag_id, $custom_fields );
 		convertkit_mm_log( 'tag', 'Add product tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
 
 	}
@@ -216,10 +235,14 @@ class ConvertKit_MM_Actions {
 	 */
 	public function add_bundle( $purchase_data ) {
 
+		error_log( 'add_bundle' );
+		error_log( print_r( $purchase_data, true ) );
+
 		// Fetch data from purchase array.
 		$user_email = $purchase_data['email'];
 		$first_name = rawurlencode( $purchase_data['first_name'] );
 		$tag_id     = $this->settings->get_bundle_mapping( $purchase_data['bundle_id'] );
+		$custom_fields = $this->get_custom_fields_data( $purchase_data );
 
 		// If no tag assigned to this Bundle, bail.
 		if ( empty( $tag_id ) ) {
@@ -227,7 +250,7 @@ class ConvertKit_MM_Actions {
 		}
 
 		// Assign tag to subscriber in ConvertKit.
-		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
+		$this->add_tag_to_user( $user_email, $first_name, $tag_id, $custom_fields );
 		convertkit_mm_log( 'tag', 'Add bundle tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
 
 	}
@@ -240,6 +263,9 @@ class ConvertKit_MM_Actions {
 	 * @param   array $member_data    Member data.
 	 */
 	public function status_change_bundle( $member_data ) {
+
+		error_log( 'status_change_bundle' );
+		error_log( print_r( $member_data, true ) );
 
 		// Determine the status change.
 		switch ( $member_data['bundle_status_name'] ) {
@@ -258,6 +284,7 @@ class ConvertKit_MM_Actions {
 		// Fetch data from member array.
 		$user_email = $member_data['email'];
 		$first_name = rawurlencode( $member_data['first_name'] );
+		$custom_fields = $this->get_custom_fields_data( $member_data );
 
 		// If no tag assigned to this Bundle, bail.
 		if ( empty( $tag_id ) ) {
@@ -265,8 +292,29 @@ class ConvertKit_MM_Actions {
 		}
 
 		// Assign tag to subscriber in ConvertKit.
-		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
+		$this->add_tag_to_user( $user_email, $first_name, $tag_id, $custom_fields );
 		convertkit_mm_log( 'tag', 'Add bundle tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
+
+	}
+
+	/**
+	 * Builds an array of custom field data to assign to the subscriber in Kit.
+	 * 
+	 * @since 	1.2.8
+	 * 
+	 * @param 	array 	$member_data 	Member data.
+	 * @return 	array
+	 */
+	private function get_custom_fields_data( $member_data ) {
+
+		$custom_fields = array();
+
+		// Last Name.
+		if ( ! empty( $this->settings->get_by_key( 'custom_field_last_name' ) ) ) {
+			$custom_fields[ $this->settings->get_by_key( 'custom_field_last_name' ) ] = $member_data['last_name'];
+		}
+
+		return $custom_fields;
 
 	}
 
@@ -279,8 +327,9 @@ class ConvertKit_MM_Actions {
 	 * @param   string $email          Email Address.
 	 * @param   string $first_name     First Name.
 	 * @param   int    $tag_id         Tag ID.
+	 * @param 	array  $custom_fields  Custom Fields.
 	 */
-	private function add_tag_to_user( $email, $first_name, $tag_id ) {
+	private function add_tag_to_user( $email, $first_name, $tag_id, $custom_fields = array() ) {
 
 		// Initialize the API.
 		$api = new ConvertKit_MM_API(
@@ -294,7 +343,7 @@ class ConvertKit_MM_Actions {
 
 		// Subscribe email.
 		// Subscribe the email address.
-		$subscriber = $api->create_subscriber( $email, $first_name );
+		$subscriber = $api->create_subscriber( $email, $first_name, 'active', $custom_fields );
 		if ( is_wp_error( $subscriber ) ) {
 			return;
 		}

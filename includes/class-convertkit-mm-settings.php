@@ -372,6 +372,9 @@ class ConvertKit_MM_Settings {
 
 			// Settings.
 			'debug'         => '', // blank|on.
+
+			// Custom Fields.
+			'custom_field_last_name' => '',
 		);
 
 		/**
