@@ -169,6 +169,53 @@ class BundleTagCest
 	}
 
 	/**
+	 * Test that the member has a tag removed when their bundle is cancelled.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testMemberTagRemovedWhenBundleCancelled(AcceptanceTester $I)
+	{
+		// Create a product.
+		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+
+		// Create bundle.
+		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+
+		// Setup Plugin to tag users purchasing the bundle to the
+		// ConvertKit Tag ID.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'convertkit-mapping-bundle-' . $bundleID => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'convertkit-mapping-bundle-' . $bundleID . '-cancel' => $_ENV['CONVERTKIT_API_TAG_ID'] . '-remove',
+			]
+		);
+
+		// Generate email address for test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create member.
+		$I->memberMouseCreateMember($I, $emailAddress);
+
+		// Assign bundle.
+		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
+
+		// Check subscriber exists.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+
+		// Cancel the user's bundle.
+		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
+
+		// Check that the subscriber is no longer assigned to the tag.
+		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+	}
+
+	/**
 	 * Test that the member is not tagged when the configured "apply tag on add"
 	 * setting is "none" for the given bundle.
 	 *

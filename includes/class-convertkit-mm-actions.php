@@ -144,9 +144,16 @@ class ConvertKit_MM_Actions {
 			return;
 		}
 
+		// If the Tag contains `-remove`, we need to remove the Tag from the subscriber.
+		if ( strpos( $tag_id, '-remove' ) !== false ) {
+			$this->remove_tag_from_user( $user_email, $tag_id );
+			convertkit_mm_log( 'tag', 'Remove tag ' . $tag_id . ' from user ' . $user_email . ' (' . $first_name . ')' );
+			return;
+		}
+
 		// Subscribe and tag.
 		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
-		convertkit_mm_log( 'tag', 'Delete tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
+		convertkit_mm_log( 'tag', 'Add tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
 
 	}
 
@@ -174,9 +181,16 @@ class ConvertKit_MM_Actions {
 			return;
 		}
 
+		// If the Tag contains `-remove`, we need to remove the Tag from the subscriber.
+		if ( strpos( $tag_id, '-remove' ) !== false ) {
+			$this->remove_tag_from_user( $user_email, $tag_id );
+			convertkit_mm_log( 'tag', 'Remove tag ' . $tag_id . ' from user ' . $user_email . ' (' . $first_name . ')' );
+			return;
+		}
+
 		// Subscribe and tag.
 		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
-		convertkit_mm_log( 'tag', 'Delete tag ' . $tag_id . ' to user ' . $user_email . ' (' . $user_name . ')' );
+		convertkit_mm_log( 'tag', 'Add tag ' . $tag_id . ' to user ' . $user_email . ' (' . $user_name . ')' );
 
 	}
 
@@ -264,6 +278,13 @@ class ConvertKit_MM_Actions {
 			return;
 		}
 
+		// If the Tag contains `-remove`, we need to remove the Tag from the subscriber.
+		if ( strpos( $tag_id, '-remove' ) !== false ) {
+			$this->remove_tag_from_user( $user_email, $tag_id );
+			convertkit_mm_log( 'tag', 'Remove bundle tag ' . $tag_id . ' from user ' . $user_email . ' (' . $first_name . ')' );
+			return;
+		}
+
 		// Assign tag to subscriber in ConvertKit.
 		$this->add_tag_to_user( $user_email, $first_name, $tag_id );
 		convertkit_mm_log( 'tag', 'Add bundle tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
@@ -301,6 +322,31 @@ class ConvertKit_MM_Actions {
 
 		// Tag subscriber.
 		$api->tag_subscriber( absint( $tag_id ), $subscriber['subscriber']['id'] );
+
+	}
+
+	/**
+	 * Initializes the API, removing the Tag ID from the subscriber on Kit.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @param   string $email          Email Address.
+	 * @param   int    $tag_id         Tag ID.
+	 */
+	private function remove_tag_from_user( $email, $tag_id ) {
+
+		// Initialize the API.
+		$api = new ConvertKit_MM_API(
+			CONVERTKIT_MM_OAUTH_CLIENT_ID,
+			CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'settings'
+		);
+
+		// Remove tag from subscriber.
+		$api->remove_tag_from_subscriber_by_email( absint( $tag_id ), $email );
 
 	}
 
