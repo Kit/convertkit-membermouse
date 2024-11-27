@@ -146,6 +146,57 @@ class MemberTagCest
 	}
 
 	/**
+	 * Test that the member has a tag removed when their membership level is cancelled.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testMemberTagRemovedWhenMembershipLevelCancelled(AcceptanceTester $I)
+	{
+		// Setup Plugin to tag users added to the Free Membership level to the
+		// ConvertKit Tag ID, and remove the tag when their membership
+		// is cancelled.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'convertkit-mapping-1'        => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'convertkit-mapping-1-cancel' => $_ENV['CONVERTKIT_API_TAG_ID'] . '-remove',
+			]
+		);
+
+		// Generate email address for test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create member.
+		$I->memberMouseCreateMember($I, $emailAddress);
+
+		// Check subscriber exists.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+
+		// Cancel the user's membership level.
+		$I->amOnAdminPage('admin.php?page=manage_members');
+		$I->click($emailAddress);
+		$I->click('Access Rights');
+		$I->click('Cancel Membership');
+
+		// Accept popups
+		// We have to wait as there's no specific event MemberMouse fires to tell
+		// us it completed changing the membership level.
+		$I->wait(5);
+		$I->acceptPopup();
+		$I->wait(5);
+		$I->acceptPopup();
+		$I->wait(5);
+
+		// Check that the subscriber is no longer assigned to the tag.
+		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+	}
+
+	/**
 	 * Test that the member is tagged with the configured "apply tag on cancelled"
 	 * setting when deleted.
 	 *
@@ -189,6 +240,56 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the cancelled tag.
 		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
+	}
+
+	/**
+	 * Test that the member has a tag removed when their membership is deleted.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testMemberTagRemovedWhenDeleted(AcceptanceTester $I)
+	{
+		// Setup Plugin to tag users added to the Free Membership level to the
+		// ConvertKit Tag ID, and remove the tag when their membership
+		// is deleted.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'convertkit-mapping-1'        => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'convertkit-mapping-1-cancel' => $_ENV['CONVERTKIT_API_TAG_ID'] . '-remove',
+			]
+		);
+
+		// Generate email address for test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create member.
+		$I->memberMouseCreateMember($I, $emailAddress);
+
+		// Check subscriber exists.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+
+		// Cancel the user's membership level.
+		$I->amOnAdminPage('admin.php?page=manage_members');
+		$I->click($emailAddress);
+		$I->click('Delete Member');
+
+		// Accept popups
+		// We have to wait as there's no specific event MemberMouse fires to tell
+		// us it completed changing the membership level.
+		$I->wait(5);
+		$I->acceptPopup();
+		$I->wait(5);
+		$I->acceptPopup();
+		$I->wait(5);
+
+		// Check that the subscriber is no longer assigned to the tag.
+		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
 	}
 
 	/**

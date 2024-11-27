@@ -283,6 +283,30 @@ class ConvertKit_MM_Admin {
 	}
 
 	/**
+	 * Helper method to determine if we're viewing the current settings screen.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @return  bool
+	 */
+	public function on_settings_screen() {
+
+		// phpcs:disable WordPress.Security.NonceVerification
+
+		// Bail if we're not on the settings screen.
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) {
+			return false;
+		}
+		if ( sanitize_text_field( $_REQUEST['page'] ) !== 'convertkit-mm' ) {
+			return false;
+		}
+		// phpcs:enable
+
+		return true;
+
+	}
+
+	/**
 	 * Register settings sections and fields on the settings screen.
 	 *
 	 * @since       1.0.0
@@ -310,6 +334,9 @@ class ConvertKit_MM_Admin {
 			);
 			return;
 		}
+
+		// Initialize resource classes.
+		$this->maybe_initialize_and_refresh_resources();
 
 		// Register "General" settings section and fields.
 		add_settings_section(
@@ -343,14 +370,6 @@ class ConvertKit_MM_Admin {
 			)
 		);
 
-		// Fetch Custom Fields and Tags.
-		// We use refresh() to ensure we get the latest data, as we're in the admin interface
-		// and need to populate the select dropdown.
-		$this->custom_fields = new ConvertKit_MM_Resource_Custom_Fields( $this->api );
-		$this->custom_fields->refresh();
-		$this->tags = new ConvertKit_MM_Resource_Tags( $this->api );
-		$this->tags->refresh();
-
 		// Bail if no tags, as there are no further configuration settings without having ConvertKit Tags.
 		if ( ! $this->tags->exist() ) {
 			return;
@@ -367,6 +386,31 @@ class ConvertKit_MM_Admin {
 
 		// Register "Tagging: Bundles" settings section and fields.
 		$this->register_settings_bundles();
+
+	}
+
+	/**
+	 * Initialize resource classes and perform a and refresh of resources,
+	 * if initialization has not yet taken place.
+	 *
+	 * @since   1.2.8
+	 */
+	public function maybe_initialize_and_refresh_resources() {
+
+		// Initialize classes.
+		$this->tags = new ConvertKit_MM_Resource_Tags( $this->api );
+		$this->custom_fields = new ConvertKit_MM_Resource_Custom_Fields( $this->api );
+
+		// Don't refresh resources if we're not on the settings screen, as
+		// it's a resource intense process that can take several seconds.
+		// We don't want to block other parts of the admin UI.
+		if ( ! $this->on_settings_screen() ) {
+			return;
+		}
+
+		// Refresh resources now.
+		$this->tags->refresh();
+		$this->custom_fields->refresh();
 
 	}
 
@@ -450,6 +494,7 @@ class ConvertKit_MM_Admin {
 				CONVERTKIT_MM_NAME . '-ck-mapping-membership-levels',
 				array(
 					'key'          => $key,
+					'type'         => __( 'Level', 'convertkit-mm' ),
 
 					'name'         => 'convertkit-mapping-' . $key,
 					'value'        => $this->settings->get_membership_level_mapping( $key ),
@@ -508,6 +553,7 @@ class ConvertKit_MM_Admin {
 				CONVERTKIT_MM_NAME . '-ck-mapping-products',
 				array(
 					'key'     => $key,
+					'type'    => __( 'Product', 'convertkit-mm' ),
 
 					'name'    => 'convertkit-mapping-product-' . $key,
 					'value'   => $this->settings->get_product_mapping( $key ),
@@ -564,6 +610,7 @@ class ConvertKit_MM_Admin {
 				CONVERTKIT_MM_NAME . '-ck-mapping-bundles',
 				array(
 					'key'          => $key,
+					'type'         => __( 'Bundle', 'convertkit-mm' ),
 
 					'name'         => 'convertkit-mapping-bundle-' . $key,
 					'value'        => $this->settings->get_bundle_mapping( $key ),
@@ -805,7 +852,8 @@ class ConvertKit_MM_Admin {
 			$args['name_cancel'],
 			$args['value_cancel'],
 			$args['options'],
-			__( 'Apply tag on cancel', 'convertkit-mm' )
+			__( 'Apply / remove tag on cancel', 'convertkit-mm' ),
+			true
 		);
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -845,13 +893,14 @@ class ConvertKit_MM_Admin {
 	 *
 	 * @since   1.3.0
 	 *
-	 * @param   string      $name            Name.
-	 * @param   string      $value           Value.
-	 * @param   array       $options         Options / Choices.
-	 * @param   bool|string $label           Label.
-	 * @return  string                           HTML Select Field
+	 * @param   string      $name                   Name.
+	 * @param   string      $value                  Value.
+	 * @param   array       $options                Options / Choices.
+	 * @param   bool|string $label                  Label.
+	 * @param   bool        $show_remove_options    Show 'Remove Tag' options.
+	 * @return  string                              HTML Select Field
 	 */
-	private function get_select_field( $name, $value = '', $options = array(), $label = false ) {
+	private function get_select_field( $name, $value = '', $options = array(), $label = false, $show_remove_options = false ) {
 
 		$html = '';
 
@@ -878,7 +927,11 @@ class ConvertKit_MM_Admin {
 			esc_attr__( '(None)', 'convertkit-mm' )
 		);
 
-		// Build <option> tags.
+		// Tags: Assign.
+		$html .= sprintf(
+			'<optgroup label="%s">',
+			__( 'Assign Tag', 'convertkit-mm' )
+		);
 		foreach ( $options as $option ) {
 			$html .= sprintf(
 				'<option value="%s"%s>%s</option>',
@@ -886,6 +939,25 @@ class ConvertKit_MM_Admin {
 				selected( $value, $option['id'], false ),
 				$option['name']
 			);
+		}
+		$html .= '</optgroup>';
+
+		// Tags: Remove.
+		if ( $show_remove_options ) {
+			$html .= sprintf(
+				'<optgroup label="%s">',
+				__( 'Remove Tag', 'convertkit-mm' )
+			);
+			foreach ( $options as $option ) {
+				$html .= sprintf(
+					'<option value="%s-remove"%s>%s (%s)</option>',
+					$option['id'],
+					selected( $value, $option['id'] . '-remove', false ),
+					$option['name'],
+					__( 'Remove', 'convertkit-mm' )
+				);
+			}
+			$html .= '</optgroup>';
 		}
 
 		// Close <select>.
