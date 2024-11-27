@@ -274,6 +274,30 @@ class ConvertKit_MM_Admin {
 	}
 
 	/**
+	 * Helper method to determine if we're viewing the current settings screen.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @return  bool
+	 */
+	public function on_settings_screen() {
+
+		// phpcs:disable WordPress.Security.NonceVerification
+
+		// Bail if we're not on the settings screen.
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) {
+			return false;
+		}
+		if ( sanitize_text_field( $_REQUEST['page'] ) !== 'convertkit-mm' ) {
+			return false;
+		}
+		// phpcs:enable
+
+		return true;
+
+	}
+
+	/**
 	 * Register settings sections and fields on the settings screen.
 	 *
 	 * @since       1.0.0
@@ -301,6 +325,9 @@ class ConvertKit_MM_Admin {
 			);
 			return;
 		}
+
+		// Initialize resource classes.
+		$this->maybe_initialize_and_refresh_resources();
 
 		// Register "General" settings section and fields.
 		add_settings_section(
@@ -334,12 +361,6 @@ class ConvertKit_MM_Admin {
 			)
 		);
 
-		// Fetch Tags.
-		// We use refresh() to ensure we get the latest data, as we're in the admin interface
-		// and need to populate the select dropdown.
-		$this->tags = new ConvertKit_MM_Resource_Tags( $this->api );
-		$this->tags->refresh();
-
 		// Bail if no tags, as there are no further configuration settings without having ConvertKit Tags.
 		if ( ! $this->tags->exist() ) {
 			return;
@@ -353,6 +374,29 @@ class ConvertKit_MM_Admin {
 
 		// Regsiter "Tagging: Bundles" settings section and fields.
 		$this->register_settings_bundles();
+
+	}
+
+	/**
+	 * Initialize resource classes and perform a and refresh of resources,
+	 * if initialization has not yet taken place.
+	 *
+	 * @since   1.2.8
+	 */
+	public function maybe_initialize_and_refresh_resources() {
+
+		// Initialize classes.
+		$this->tags = new ConvertKit_MM_Resource_Tags( $this->api );
+
+		// Don't refresh resources if we're not on the settings screen, as
+		// it's a resource intense process that can take several seconds.
+		// We don't want to block other parts of the admin UI.
+		if ( ! $this->on_settings_screen() ) {
+			return;
+		}
+
+		// Refresh resources now.
+		$this->tags->refresh();
 
 	}
 
