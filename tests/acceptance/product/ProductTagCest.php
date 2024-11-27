@@ -96,7 +96,6 @@ class ProductTagCest
 
 		// Logout.
 		$I->memberMouseLogOut($I);
-
 	}
 
 	/**
