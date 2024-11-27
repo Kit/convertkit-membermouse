@@ -93,6 +93,9 @@ class ProductTagCest
 
 		// Check subscriber does not exist.
 		$subscriberID = $I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+
+		// Logout.
+		$I->memberMouseLogOut($I);
 	}
 
 	/**
@@ -106,6 +109,7 @@ class ProductTagCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
+		$I->deactivateThirdPartyPlugin($I, 'membermouse-platform');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
