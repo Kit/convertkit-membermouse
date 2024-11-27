@@ -79,7 +79,7 @@ class ConvertKit_MM_Actions {
 
 		// Fetch data from member array.
 		$user_email    = $member_data['email'];
-		$first_name    = rawurlencode( $member_data['first_name'] );
+		$first_name    = $member_data['first_name'];
 		$tag_id        = $this->settings->get_membership_level_mapping( $member_data['membership_level'] );
 		$custom_fields = $this->get_custom_fields_data( $member_data );
 
@@ -106,7 +106,7 @@ class ConvertKit_MM_Actions {
 		// Define new member data.
 		$user_email    = $member_data['email'];
 		$last_email    = ( array_key_exists( 'last_email', $member_data ) ? $member_data['last_email'] : $member_data['email'] );
-		$first_name    = rawurlencode( $member_data['first_name'] );
+		$first_name    = $member_data['first_name'];
 		$custom_fields = $this->get_custom_fields_data( $member_data );
 
 		// Update the subscriber with their new information.
@@ -138,7 +138,7 @@ class ConvertKit_MM_Actions {
 
 		// Fetch data from member array.
 		$user_email    = $member_data['email'];
-		$first_name    = rawurlencode( $member_data['first_name'] );
+		$first_name    = $member_data['first_name'];
 		$tag_id        = $this->settings->get_membership_level_cancellation_mapping( $member_data['membership_level'] );
 		$custom_fields = $this->get_custom_fields_data( $member_data );
 
@@ -176,7 +176,7 @@ class ConvertKit_MM_Actions {
 
 		// Fetch data from member array.
 		$user_email    = $member_data['email'];
-		$first_name    = rawurlencode( $member_data['first_name'] );
+		$first_name    = $member_data['first_name'];
 		$tag_id        = $this->settings->get_membership_level_cancellation_mapping( $member_data['membership_level'] );
 		$custom_fields = $this->get_custom_fields_data( $member_data );
 
@@ -210,7 +210,7 @@ class ConvertKit_MM_Actions {
 
 		// Fetch data from purchase array.
 		$user_email    = $purchase_data['email'];
-		$first_name    = rawurlencode( $purchase_data['first_name'] );
+		$first_name    = $purchase_data['first_name'];
 		$tag_id        = $this->settings->get_product_mapping( $purchase_data['product_id'] );
 		$custom_fields = $this->get_custom_fields_data( $purchase_data );
 
@@ -237,7 +237,7 @@ class ConvertKit_MM_Actions {
 
 		// Fetch data from purchase array.
 		$user_email    = $purchase_data['email'];
-		$first_name    = rawurlencode( $purchase_data['first_name'] );
+		$first_name    = $purchase_data['first_name'];
 		$tag_id        = $this->settings->get_bundle_mapping( $purchase_data['bundle_id'] );
 		$custom_fields = $this->get_custom_fields_data( $purchase_data );
 
@@ -277,7 +277,7 @@ class ConvertKit_MM_Actions {
 
 		// Fetch data from member array.
 		$user_email    = $member_data['email'];
-		$first_name    = rawurlencode( $member_data['first_name'] );
+		$first_name    = $member_data['first_name'];
 		$custom_fields = $this->get_custom_fields_data( $member_data );
 
 		// If no tag assigned to this Bundle, bail.

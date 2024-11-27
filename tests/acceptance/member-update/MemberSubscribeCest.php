@@ -66,7 +66,7 @@ class MemberSubscribeCest
 		// Check that the subscriber has the custom field data.
 		$I->apiCustomFieldDataIsValid(
 			$I,
-			$subscriber,
+			$subscriberAfterNewEmailAddress,
 			[
 				'last_name' => $newLastName,
 			]
