@@ -398,7 +398,7 @@ class ConvertKit_MM_Admin {
 	public function maybe_initialize_and_refresh_resources() {
 
 		// Initialize classes.
-		$this->tags = new ConvertKit_MM_Resource_Tags( $this->api );
+		$this->tags          = new ConvertKit_MM_Resource_Tags( $this->api );
 		$this->custom_fields = new ConvertKit_MM_Resource_Custom_Fields( $this->api );
 
 		// Don't refresh resources if we're not on the settings screen, as
