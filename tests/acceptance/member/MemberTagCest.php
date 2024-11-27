@@ -48,10 +48,10 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -89,20 +89,14 @@ class MemberTagCest
 		$I->selectOption('#mm-new-membership-selection', 'Premium');
 		$I->click('Change Membership');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -133,10 +127,10 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
@@ -144,17 +138,11 @@ class MemberTagCest
 		$I->click('Access Rights');
 		$I->click('Cancel Membership');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber has been assigned to the cancelled tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
 	}
 
 	/**
@@ -184,10 +172,10 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
@@ -195,17 +183,11 @@ class MemberTagCest
 		$I->click('Access Rights');
 		$I->click('Cancel Membership');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber is no longer assigned to the tag.
-		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
 	}
 
 	/**
@@ -237,27 +219,21 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
 		$I->click($emailAddress);
 		$I->click('Delete Member');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber has been assigned to the cancelled tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
 	}
 
 	/**
@@ -287,27 +263,21 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
 		$I->click($emailAddress);
 		$I->click('Delete Member');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber is no longer assigned to the tag.
-		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
 	}
 
 	/**
@@ -344,10 +314,10 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
@@ -355,40 +325,28 @@ class MemberTagCest
 		$I->click('Access Rights');
 		$I->click('Cancel Membership');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber has been assigned to the cancelled tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
 
 		// Remove tags added to subscriber.
-		$I->apiSubscriberRemoveTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
-		$I->apiSubscriberRemoveTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
+		$I->apiSubscriberRemoveTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiSubscriberRemoveTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
 
 		// Confirm tag removal worked.
-		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
 
 		// Assign second, new membership level.
 		$I->selectOption('#mm-new-membership-selection', 'Premium');
 		$I->click('Change Membership');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber has been assigned to the tag for the second membership level.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -417,7 +375,7 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber does not exist.
-		$subscriberID = $I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 	}
 
 	/**
@@ -451,10 +409,10 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Change the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
@@ -463,21 +421,15 @@ class MemberTagCest
 		$I->selectOption('#mm-new-membership-selection', 'Premium');
 		$I->click('Change Membership');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
-		$I->apiCheckSubscriberTagCount($I, $subscriberID, 1);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberTagCount($I, $subscriber['id'], 1);
 	}
 
 	/**
@@ -509,10 +461,10 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
@@ -520,18 +472,12 @@ class MemberTagCest
 		$I->click('Access Rights');
 		$I->click('Cancel Membership');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
-		$I->apiCheckSubscriberTagCount($I, $subscriberID, 1);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberTagCount($I, $subscriber['id'], 1);
 	}
 
 	/**
@@ -563,28 +509,22 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
 		$I->click($emailAddress);
 		$I->click('Delete Member');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
-		$I->apiCheckSubscriberTagCount($I, $subscriberID, 1);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberTagCount($I, $subscriber['id'], 1);
 	}
 
 	/**

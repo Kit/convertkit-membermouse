@@ -121,9 +121,7 @@ class MemberMouse extends \Codeception\Module
 		// Accept popup once user created.
 		// We have to wait as there's no specific event MemberMouse fires to tell
 		// us it completed adding the member.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		$I->memberMouseAcceptPopups($I, 1, 15);
 	}
 
 	/**
@@ -135,8 +133,9 @@ class MemberMouse extends \Codeception\Module
 	 * @param   string           $emailAddress          Email Address.
 	 * @param   string           $newEmailAddress       New Email Address.
 	 * @param   bool|string      $newFirstName          New First Name.
+	 * @param   bool|string      $newLastName           New Last Name.
 	 */
-	public function memberMouseUpdateMember($I, $emailAddress, $newEmailAddress, $newFirstName = false)
+	public function memberMouseUpdateMember($I, $emailAddress, $newEmailAddress, $newFirstName = false, $newLastName = false)
 	{
 		// Click account with current email address.
 		$I->click($emailAddress);
@@ -146,14 +145,16 @@ class MemberMouse extends \Codeception\Module
 		if ($newFirstName) {
 			$I->fillField('#mm-first-name', $newFirstName);
 		}
+		if ($newLastName) {
+			$I->fillField('#mm-last-name', $newLastName);
+		}
 
 		$I->click('Update Member');
 
 		// Accept popup once user updated.
 		// We have to wait as there's no specific event MemberMouse fires to tell
 		// us it completed updating the member.
-		$I->wait(5);
-		$I->acceptPopup();
+		$I->memberMouseAcceptPopups($I, 1);
 	}
 
 	/**
@@ -181,12 +182,9 @@ class MemberMouse extends \Codeception\Module
 
 		// Comp product for free.
 		$I->click('Comp ' . $bundleName);
-		$I->wait(5);
-		$I->acceptPopup();
 
 		// Accept popups.
-		$I->wait(5);
-		$I->acceptPopup();
+		$I->memberMouseAcceptPopups($I, 2);
 	}
 
 	/**
@@ -206,13 +204,8 @@ class MemberMouse extends \Codeception\Module
 		$I->click('Access Rights');
 		$I->click('a[title="Cancel ' . $bundleName . '"]');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2, 7);
 	}
 
 	/**
@@ -234,14 +227,10 @@ class MemberMouse extends \Codeception\Module
 
 		// Wait for modal.
 		$I->waitForElementVisible('#mm-payment-options-dialog');
-
 		$I->click('Comp ' . $bundleName);
-		$I->wait(5);
-		$I->acceptPopup();
 
 		// Accept popups.
-		$I->wait(5);
-		$I->acceptPopup();
+		$I->memberMouseAcceptPopups($I, 2);
 	}
 
 	/**
@@ -325,5 +314,27 @@ class MemberMouse extends \Codeception\Module
 
 		// Wait for confirmation.
 		$I->waitForText('Thank you for your order');
+	}
+
+	/**
+	 * Helper method to wait and acecpt browser popups when
+	 * managing members in MemberMouse.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @param   AcceptanceTester $I                     AcceptanceTester.
+	 * @param   int              $numberOfPopups        Number of popups to accept.
+	 * @param   int              $waitInSeconds         Number of seconds to wait for each popup.
+	 */
+	public function memberMouseAcceptPopups($I, $numberOfPopups, $waitInSeconds = 5)
+	{
+		// We have to wait as there's no specific event MemberMouse fires to tell
+		// us it completed changing the membership level.
+		for ( $i = 1; $i <= $numberOfPopups; $i++) {
+			$I->wait($waitInSeconds);
+			$I->acceptPopup();
+		}
+
+		$I->wait($waitInSeconds);
 	}
 }

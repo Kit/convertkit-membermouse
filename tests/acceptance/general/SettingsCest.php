@@ -154,6 +154,49 @@ class SettingsCest
 	}
 
 	/**
+	 * Test that custom field changes on the settings screen
+	 * works with no errors.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSaveCustomFieldsAssignment(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Go to the Plugin's Settings Screen.
+		$I->amOnAdminPage('options-general.php?page=convertkit-mm');
+
+		// Assign custom fields.
+		$I->selectOption('convertkit-mm-options[custom_field_last_name]', 'Last Name');
+
+		// Click save settings.
+		$I->click('Save Settings');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm settings saved.
+		$I->see('Settings saved.');
+		$I->seeOptionIsSelected('convertkit-mm-options[custom_field_last_name]', 'Last Name');
+
+		// Change tag back to 'None'.
+		$I->selectOption('convertkit-mm-options[custom_field_last_name]', '(None)');
+
+		// Click save settings.
+		$I->click('Save Settings');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm settings saved.
+		$I->see('Settings saved.');
+		$I->seeOptionIsSelected('convertkit-mm-options[custom_field_last_name]', '(None)');
+	}
+
+	/**
 	 * Test that level to tag mapping changes on the settings screen
 	 * works with no errors.
 	 *

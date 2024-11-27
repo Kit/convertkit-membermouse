@@ -51,11 +51,20 @@ class ConvertKit_MM_Admin {
 	private $account = false;
 
 	/**
+	 * Holds the Kit Custom Fields.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @var     null|ConvertKit_MM_Resource_Custom_Fields
+	 */
+	public $custom_fields;
+
+	/**
 	 * Holds the ConvertKit Tags.
 	 *
 	 * @since   1.2.0
 	 *
-	 * @var     null|array
+	 * @var     null|ConvertKit_MM_Resource_Tags
 	 */
 	public $tags;
 
@@ -366,13 +375,16 @@ class ConvertKit_MM_Admin {
 			return;
 		}
 
-		// Regsiter "Tagging: Membership Levels" settings section and fields.
+		// Register "Custom Fields" settings section and fields.
+		$this->register_custom_fields();
+
+		// Register "Tagging: Membership Levels" settings section and fields.
 		$this->register_settings_membership_levels();
 
 		// Register "Tagging: Products" settings section and fields.
 		$this->register_settings_products();
 
-		// Regsiter "Tagging: Bundles" settings section and fields.
+		// Register "Tagging: Bundles" settings section and fields.
 		$this->register_settings_bundles();
 
 	}
@@ -386,7 +398,8 @@ class ConvertKit_MM_Admin {
 	public function maybe_initialize_and_refresh_resources() {
 
 		// Initialize classes.
-		$this->tags = new ConvertKit_MM_Resource_Tags( $this->api );
+		$this->tags          = new ConvertKit_MM_Resource_Tags( $this->api );
+		$this->custom_fields = new ConvertKit_MM_Resource_Custom_Fields( $this->api );
 
 		// Don't refresh resources if we're not on the settings screen, as
 		// it's a resource intense process that can take several seconds.
@@ -397,6 +410,42 @@ class ConvertKit_MM_Admin {
 
 		// Refresh resources now.
 		$this->tags->refresh();
+		$this->custom_fields->refresh();
+
+	}
+
+	/**
+	 * Registers the settings section and fields for Membership Levels.
+	 *
+	 * @since   1.2.8
+	 */
+	private function register_custom_fields() {
+
+		add_settings_section(
+			CONVERTKIT_MM_NAME . '-custom-fields',
+			__( 'Custom Fields', 'convertkit-mm' ),
+			array( $this, 'display_section_introduction' ),
+			CONVERTKIT_MM_NAME,
+			array(
+				'before_section' => '<div class="section">',
+				'after_section'  => '</div>',
+				'description'    => __( 'The Kit custom fields to store MemberMouse data.', 'convertkit-mm' ),
+			)
+		);
+
+		add_settings_field(
+			'custom_field_last_name',
+			__( 'Send Last Name', 'convertkit-mm' ),
+			array( $this, 'custom_field_callback' ),
+			CONVERTKIT_MM_NAME,
+			CONVERTKIT_MM_NAME . '-custom-fields',
+			array(
+				'key'     => 'last_name',
+				'name'    => 'custom_field_last_name',
+				'value'   => $this->settings->get_by_key( 'custom_field_last_name' ),
+				'options' => $this->custom_fields->get(),
+			)
+		);
 
 	}
 
@@ -805,6 +854,34 @@ class ConvertKit_MM_Admin {
 			$args['options'],
 			__( 'Apply / remove tag on cancel', 'convertkit-mm' ),
 			true
+		);
+
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+
+	}
+
+	/**
+	 * Renders a custom field setting in the settings screen.
+	 *
+	 * @since   1.2.8
+	 *
+	 * @param   array $args   Setting field arguments.
+	 */
+	public function custom_field_callback( $args ) {
+
+		// Re-key options to be compatible with get_select_field().
+		$options = array();
+		foreach ( $args['options'] as $custom_field_id => $custom_field ) {
+			$options[ $custom_field['key'] ] = array(
+				'id'   => $custom_field['key'],
+				'name' => $custom_field['label'],
+			);
+		}
+
+		$html = $this->get_select_field(
+			$args['name'],
+			$args['value'],
+			$options
 		);
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

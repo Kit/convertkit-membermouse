@@ -57,10 +57,10 @@ class BundleTagCest
 		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -113,10 +113,10 @@ class BundleTagCest
 		$I->memberMouseResumeMemberBundle($I, $emailAddress, 'Bundle');
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the bundle's tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -162,10 +162,10 @@ class BundleTagCest
 		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the cancelled tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
 	}
 
 	/**
@@ -203,16 +203,16 @@ class BundleTagCest
 		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's bundle.
 		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
 
 		// Check that the subscriber is no longer assigned to the tag.
-		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
 	}
 
 	/**
@@ -250,7 +250,7 @@ class BundleTagCest
 		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
 
 		// Check subscriber does not exist.
-		$subscriberID = $I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 	}
 
 	/**
@@ -333,17 +333,17 @@ class BundleTagCest
 		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber was tagged.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's bundle.
 		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
-		$I->apiCheckSubscriberTagCount($I, $subscriberID, 1);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberTagCount($I, $subscriber['id'], 1);
 	}
 
 	/**

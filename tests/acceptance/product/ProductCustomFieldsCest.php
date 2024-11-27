@@ -1,16 +1,16 @@
 <?php
 /**
- * Tests that subscribers are added to ConvertKit and tagged
- * based on the product purchased.
+ * Tests that subscribers are added to Kit and custom field
+ * data assigned when purchasing a MemberMouse product.
  *
- * @since   1.2.0
+ * @since   1.2.8
  */
-class ProductTagCest
+class ProductCustomFieldsCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 *
-	 * @since   1.2.0
+	 * @since   1.2.8
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -23,24 +23,26 @@ class ProductTagCest
 	}
 
 	/**
-	 * Test that the member is tagged with the configured "apply tag on add"
-	 * setting when purchasing the given product.
+	 * Test that the custom field data is stored against the subscriber
+	 * in Kit when purchasing a product in MemberMouse.
 	 *
-	 * @since   1.2.0
+	 * @since   1.2.8
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testMemberTaggedWhenProductPurchased(AcceptanceTester $I)
+	public function testMemberCustomFieldsWhenProductPurchased(AcceptanceTester $I)
 	{
 		// Create a product.
 		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
 
-		// Setup Plugin to tag users purchasing the product to the
-		// ConvertKit Tag ID.
+		// Setup Plugin to tag users purchasing the bundle to the
+		// Kit Tag ID, and store the Last Name in the Kit
+		// Last Name Custom Field.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
 				'convertkit-mapping-product-1' => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'custom_field_last_name'       => 'last_name',
 			]
 		);
 
@@ -58,44 +60,15 @@ class ProductTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
-	}
 
-	/**
-	 * Test that the member is not tagged when the configured "apply tag on add"
-	 * setting is "none" for the given purchased product.
-	 *
-	 * @since   1.2.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testMemberNotTaggedWhenProductPurchased(AcceptanceTester $I)
-	{
-		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
-
-		// Setup Plugin to not tag users purchasing the product to the
-		// ConvertKit Tag ID.
-		$I->setupConvertKitPlugin(
+		// Check that the subscriber has the custom field data.
+		$I->apiCustomFieldDataIsValid(
 			$I,
+			$subscriber,
 			[
-				'convertkit-mapping-product-1' => '',
+				'last_name' => 'Last',
 			]
 		);
-
-		// Generate email address for test.
-		$emailAddress = $I->generateEmailAddress();
-
-		// Logout.
-		$I->memberMouseLogOut($I);
-
-		// Complete checkout.
-		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
-
-		// Check subscriber does not exist.
-		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
-
-		// Logout.
-		$I->memberMouseLogOut($I);
 	}
 
 	/**
@@ -103,13 +76,12 @@ class ProductTagCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 *
-	 * @since   1.2.0
+	 * @since   1.2.8
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
-		$I->deactivateThirdPartyPlugin($I, 'membermouse-platform');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
