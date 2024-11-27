@@ -203,16 +203,16 @@ class BundleTagCest
 		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's bundle.
 		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
 
 		// Check that the subscriber is no longer assigned to the tag.
-		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
 	}
 
 	/**

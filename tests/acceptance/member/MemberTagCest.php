@@ -172,10 +172,10 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
@@ -183,17 +183,11 @@ class MemberTagCest
 		$I->click('Access Rights');
 		$I->click('Cancel Membership');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber is no longer assigned to the tag.
-		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
 	}
 
 	/**
@@ -269,27 +263,21 @@ class MemberTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Check subscriber exists.
-		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's membership level.
 		$I->amOnAdminPage('admin.php?page=manage_members');
 		$I->click($emailAddress);
 		$I->click('Delete Member');
 
-		// Accept popups
-		// We have to wait as there's no specific event MemberMouse fires to tell
-		// us it completed changing the membership level.
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
-		$I->acceptPopup();
-		$I->wait(5);
+		// Accept popups.
+		$I->memberMouseAcceptPopups($I, 2);
 
 		// Check that the subscriber is no longer assigned to the tag.
-		$I->apiCheckSubscriberHasNoTags($I, $subscriberID);
+		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
 	}
 
 	/**
