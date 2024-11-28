@@ -16,7 +16,7 @@
 					</tbody>
 				</table><h3 id="convertkit_settings_get_defaults">
 						convertkit_settings_get_defaults
-						<code>includes/class-convertkit-mm-settings.php::384</code>
+						<code>includes/class-convertkit-mm-settings.php::387</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Plugin Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
