@@ -102,7 +102,7 @@ class ConvertKit_MM_Admin {
 		if ( ! array_key_exists( 'page', $_REQUEST ) ) {  // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
-		if ( sanitize_text_field( $_REQUEST['page'] ) !== 'convertkit-mm' ) {  // phpcs:ignore WordPress.Security.NonceVerification
+		if ( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) !== 'convertkit-mm' ) {  // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -112,7 +112,7 @@ class ConvertKit_MM_Admin {
 		}
 
 		// Sanitize token.
-		$authorization_code = sanitize_text_field( $_REQUEST['code'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		$authorization_code = sanitize_text_field( wp_unslash( $_REQUEST['code'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 
 		// Exchange the authorization code and verifier for an access token.
 		$api    = new ConvertKit_MM_API( CONVERTKIT_MM_OAUTH_CLIENT_ID, CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI );
@@ -167,7 +167,7 @@ class ConvertKit_MM_Admin {
 		if ( ! array_key_exists( 'page', $_REQUEST ) ) {  // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
-		if ( sanitize_text_field( $_REQUEST['page'] ) !== 'convertkit-mm' ) {  // phpcs:ignore WordPress.Security.NonceVerification
+		if ( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) !== 'convertkit-mm' ) {  // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -230,7 +230,7 @@ class ConvertKit_MM_Admin {
 		if ( ! array_key_exists( 'page', $_REQUEST ) ) {  // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
-		if ( sanitize_text_field( $_REQUEST['page'] ) !== 'convertkit-mm' ) {  // phpcs:ignore WordPress.Security.NonceVerification
+		if ( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) !== 'convertkit-mm' ) {  // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -297,7 +297,7 @@ class ConvertKit_MM_Admin {
 		if ( ! array_key_exists( 'page', $_REQUEST ) ) {
 			return false;
 		}
-		if ( sanitize_text_field( $_REQUEST['page'] ) !== 'convertkit-mm' ) {
+		if ( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) !== 'convertkit-mm' ) {
 			return false;
 		}
 		// phpcs:enable
@@ -1058,7 +1058,7 @@ class ConvertKit_MM_Admin {
 			return $levels;
 		}
 
-		$result = $wpdb->get_results( 'SELECT id, name, status FROM ' . MM_TABLE_MEMBERSHIP_LEVELS, OBJECT ); // phpcs:ignore WordPress.DB.PreparedSQL
+		$result = $wpdb->get_results( 'SELECT id, name, status FROM ' . MM_TABLE_MEMBERSHIP_LEVELS, OBJECT ); // phpcs:ignore WordPress.DB
 
 		foreach ( $result as $_level ) {
 			$levels[ $_level->id ] = $_level->name;
@@ -1084,7 +1084,7 @@ class ConvertKit_MM_Admin {
 			return $products;
 		}
 
-		$result = $wpdb->get_results( 'SELECT id, name FROM ' . MM_TABLE_PRODUCTS, OBJECT ); // phpcs:ignore WordPress.DB.PreparedSQL
+		$result = $wpdb->get_results( 'SELECT id, name FROM ' . MM_TABLE_PRODUCTS, OBJECT ); // phpcs:ignore WordPress.DB
 
 		foreach ( $result as $product ) {
 			$products[ $product->id ] = $product->name;
@@ -1110,7 +1110,7 @@ class ConvertKit_MM_Admin {
 			return $bundles;
 		}
 
-		$result = $wpdb->get_results( 'SELECT id, name FROM ' . MM_TABLE_BUNDLES, OBJECT ); // phpcs:ignore WordPress.DB.PreparedSQL
+		$result = $wpdb->get_results( 'SELECT id, name FROM ' . MM_TABLE_BUNDLES, OBJECT ); // phpcs:ignore WordPress.DB
 
 		foreach ( $result as $bundle ) {
 			$bundles[ $bundle->id ] = $bundle->name;
