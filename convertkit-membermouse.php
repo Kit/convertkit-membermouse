@@ -18,8 +18,8 @@
  * Version:           1.2.9
  * Author:            Kit
  * Author URI:        https://kit.com
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:     	  GPLv3 or later
+ * License URI: 	  https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       convertkit-mm
  * Domain Path:       /languages
  */
