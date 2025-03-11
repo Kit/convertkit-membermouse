@@ -20,9 +20,10 @@ codeception.dist.yml
 codeception.yml
 composer.json
 composer.lock
-convertkit-membermouse.zip
+convertkit.zip
 DEPLOYMENT.md
 DEVELOPMENT.md
+LICENSE
 log.txt
 log-api.txt
 phpcs.xml
