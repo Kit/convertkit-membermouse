@@ -57,9 +57,6 @@ class ConvertKit_MM {
 		// Initialize.
 		add_action( 'init', array( $this, 'init' ) );
 
-		// Load language files.
-		add_action( 'init', array( $this, 'load_language_files' ) );
-
 	}
 
 	/**
@@ -136,20 +133,6 @@ class ConvertKit_MM {
 		 * @since   1.2.0
 		 */
 		do_action( 'convertkit_membermouse_initialize_global' );
-
-	}
-
-	/**
-	 * Loads the plugin's translated strings, if available.
-	 *
-	 * @since   1.2.0
-	 */
-	public function load_language_files() {
-
-		// If the .mo file for a given language is available in WP_LANG_DIR/convertkit-membermouse
-		// i.e. it's available as a translation at https://translate.wordpress.org/projects/wp-plugins/convertkit-membermouse/,
-		// it will be used instead of the .mo file in convertkit-membermouse/languages.
-		load_plugin_textdomain( 'convertkit-mm', false, 'convertkit-membermouse/languages' );
 
 	}
 
