@@ -40,7 +40,7 @@ No. You must first have an account on [kit.com](https://kit.com?utm_source=wordp
 
 == Changelog ==
 
-### 1.3.1 2025-04-15
+### 1.3.1 2025-04-15
 * Updated: Use WordPress Libraries 2.0.8
 
 ### 1.3.0 2025-03-25
