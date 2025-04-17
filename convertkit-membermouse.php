@@ -52,7 +52,7 @@ if ( ! class_exists( 'ConvertKit_Log' ) ) {
 	require_once CONVERTKIT_MM_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-log.php';
 }
 
-// Load plugin files that are always required.
+// Load plugin files.
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-actions.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-api.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-resource.php';
@@ -61,11 +61,7 @@ require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-resource-tags.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-settings.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm.php';
 require CONVERTKIT_MM_PATH . 'includes/convertkit-mm-functions.php';
-
-// Load files that are only used in the WordPress Administration interface.
-if ( is_admin() ) {
-	require CONVERTKIT_MM_PATH . 'admin/class-convertkit-mm-admin.php';
-}
+require CONVERTKIT_MM_PATH . 'admin/class-convertkit-mm-admin.php';
 
 /**
  * Main function to return Plugin instance.
