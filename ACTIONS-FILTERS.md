@@ -67,7 +67,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 					</tbody>
 				</table><h3 id="convertkit_membermouse_initialize_admin">
 						convertkit_membermouse_initialize_admin
-						<code>includes/class-convertkit-mm.php::97</code>
+						<code>includes/class-convertkit-mm.php::94</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -87,7 +87,7 @@ do_action( 'convertkit_membermouse_initialize_admin', function(  ) {
 </pre>
 <h3 id="convertkit_membermouse_initialize_frontend">
 						convertkit_membermouse_initialize_frontend
-						<code>includes/class-convertkit-mm.php::118</code>
+						<code>includes/class-convertkit-mm.php::115</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -107,7 +107,7 @@ do_action( 'convertkit_membermouse_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_membermouse_initialize_global">
 						convertkit_membermouse_initialize_global
-						<code>includes/class-convertkit-mm.php::137</code>
+						<code>includes/class-convertkit-mm.php::134</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
