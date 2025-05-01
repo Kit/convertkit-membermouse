@@ -129,9 +129,9 @@ jobs:
         run: mv /home/runner/work/convertkit-membermouse/convertkit-membermouse/convertkit-membermouse ${{ env.PLUGIN_DIR }}
 
       # WP_DEBUG = true is required so all PHP errors are output and caught by tests (E_ALL).
-      # WP_DEBUG = false for Member tests, as MemberMouse outputs Xdebug errors in its 'Update Member' screen outside of our control.
+      # WP_DEBUG = false for PHP 8.4, otherwise E_DEPRECATED is output due to MemberMouse.
       - name: Enable WP_DEBUG
-        # if: ${{ matrix.test-groups != 'EndToEnd/member-update' }}
+        if: ${{ matrix.test-groups != 'EndToEnd/member-update' || matrix.php-versions != '8.4' }}
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw
