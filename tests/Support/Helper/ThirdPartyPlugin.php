@@ -114,6 +114,6 @@ class ThirdPartyPlugin extends \Codeception\Module
 		$I->click('#wp-submit');
 
 		// Wait for the Dashboard page to load, to confirm login succeeded.
-		$I->waitForElementVisible('body.index-php');
+		$I->waitForElementVisible('body.wp-admin');
 	}
 }
