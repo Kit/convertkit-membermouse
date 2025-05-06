@@ -4,7 +4,7 @@ Donate link: http://kit.com/
 Tags: convertkit, email, marketing, membermouse
 Requires at least: 5.0
 Tested up to: 6.8
-Requires PHP: 5.6.20
+Requires PHP: 7.1
 Stable tag: 1.3.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
