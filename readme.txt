@@ -40,7 +40,7 @@ No. You must first have an account on [kit.com](https://kit.com?utm_source=wordp
 
 == Changelog ==
 
-### 1.3.2 2025-04-23
+### 1.3.2 2025-05-07
 * Fix: Require all Plugin files to ensure compatibility with Solid Central (previously iThemes Sync)
 * Updated: Updated GPL license from v2 to v3
 * Updated: Require PHP 7.1 or greater
