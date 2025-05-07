@@ -43,6 +43,8 @@ No. You must first have an account on [kit.com](https://kit.com?utm_source=wordp
 ### 1.3.2 2025-04-23
 * Fix: Require all Plugin files to ensure compatibility with Solid Central (previously iThemes Sync)
 * Updated: Updated GPL license from v2 to v3
+* Updated: Require PHP 7.1 or greater
+* Updated: Use WordPress Libraries 2.0.9
 
 ### 1.3.1 2025-04-15
 * Updated: Use WordPress Libraries 2.0.8
