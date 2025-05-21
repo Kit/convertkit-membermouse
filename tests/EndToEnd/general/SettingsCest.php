@@ -259,7 +259,11 @@ class SettingsCest
 	public function testSaveProductTagAssignment(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
@@ -305,10 +309,18 @@ class SettingsCest
 	public function testSaveBundleTagAssignment(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);

@@ -286,13 +286,13 @@ class MemberMouse extends \Codeception\Module
 	 * @since   1.2.0
 	 *
 	 * @param   EndToEndTester $I             Tester.
-	 * @param   string         $productReferenceKey   Product reference key.
-	 * @param   string         $emailAddress          Email Address.
+	 * @param   string         $key           Product reference key.
+	 * @param   string         $emailAddress  Email Address.
 	 */
-	public function memberMouseCheckoutProduct($I, $productReferenceKey, $emailAddress)
+	public function memberMouseCheckoutProduct($I, $key, $emailAddress)
 	{
 		// Navigate to purchase screen for the product.
-		$I->amOnPage('checkout/?rid=' . $productReferenceKey);
+		$I->amOnPage('checkout/?rid=' . $key);
 
 		// Complete checkout.
 		$I->fillField('mm_field_first_name', 'First');
