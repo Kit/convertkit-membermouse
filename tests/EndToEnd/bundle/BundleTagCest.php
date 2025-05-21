@@ -483,7 +483,7 @@ class BundleTagCest
 		$I->apiCheckSubscriberTagCount(
 			$I,
 			subscriberID: $subscriber['id'],
-			tagCount: 1
+			numberOfTags: 1
 		);
 	}
 
