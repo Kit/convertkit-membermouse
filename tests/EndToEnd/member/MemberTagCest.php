@@ -57,7 +57,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -106,7 +106,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -144,7 +144,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -160,7 +160,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the cancelled tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']
 		);
@@ -197,7 +197,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -247,7 +247,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -262,7 +262,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the cancelled tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']
 		);
@@ -299,7 +299,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -311,7 +311,7 @@ class MemberTagCest
 
 		// Accept popups.
 		$I->memberMouseAcceptPopups(
-			I: $I,
+			$I,
 			numberOfPopups: 2
 		);
 
@@ -357,7 +357,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -376,19 +376,19 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the cancelled tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']
 		);
 
 		// Remove tags added to subscriber.
 		$I->apiSubscriberRemoveTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
 		$I->apiSubscriberRemoveTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']
 		);
@@ -407,7 +407,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag for the second membership level.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -477,7 +477,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -491,7 +491,7 @@ class MemberTagCest
 
 		// Accept popups.
 		$I->memberMouseAcceptPopups(
-			I: $I,
+			$I,
 			numberOfPopups: 2
 		);
 
@@ -500,12 +500,12 @@ class MemberTagCest
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
 		$I->apiCheckSubscriberTagCount(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			numberOfTags: 1
 		);
@@ -543,7 +543,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -559,12 +559,12 @@ class MemberTagCest
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
 		$I->apiCheckSubscriberTagCount(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			numberOfTags: 1
 		);
@@ -603,7 +603,7 @@ class MemberTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -618,12 +618,12 @@ class MemberTagCest
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
 		$I->apiCheckSubscriberTagCount(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			numberOfTags: 1
 		);

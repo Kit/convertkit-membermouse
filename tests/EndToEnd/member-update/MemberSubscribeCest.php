@@ -61,7 +61,7 @@ class MemberSubscribeCest
 		$newLastName     = 'New Last Name';
 		$newEmailAddress = 'new-' . $emailAddress;
 		$I->memberMouseUpdateMember(
-			I: $I,
+			$I,
 			emailAddress: $emailAddress,
 			newEmailAddress: $newEmailAddress,
 			newFirstName: $newFirstName,
@@ -70,7 +70,7 @@ class MemberSubscribeCest
 
 		// Check the subscriber's email address was updated in ConvertKit.
 		$subscriberAfterNewEmailAddress = $I->apiCheckSubscriberExists(
-			I: $I,
+			$I,
 			emailAddress: $newEmailAddress,
 			firstName: $newFirstName
 		);
@@ -80,7 +80,7 @@ class MemberSubscribeCest
 
 		// Check that the subscriber has the custom field data.
 		$I->apiCustomFieldDataIsValid(
-			I: $I,
+			$I,
 			subscriber: $subscriberAfterNewEmailAddress,
 			customFields: [
 				'last_name' => $newLastName,

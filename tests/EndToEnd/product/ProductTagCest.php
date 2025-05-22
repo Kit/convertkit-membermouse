@@ -39,7 +39,7 @@ class ProductTagCest
 	{
 		// Create a product.
 		$productID = $I->memberMouseCreateProduct(
-			I: $I,
+			$I,
 			name: 'Product',
 			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
 		);
@@ -61,7 +61,7 @@ class ProductTagCest
 
 		// Complete checkout.
 		$I->memberMouseCheckoutProduct(
-			I: $I,
+			$I,
 			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'],
 			emailAddress: $emailAddress
 		);
@@ -71,7 +71,7 @@ class ProductTagCest
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag(
-			I: $I,
+			$I,
 			subscriberID: $subscriber['id'],
 			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
 		);
@@ -89,7 +89,7 @@ class ProductTagCest
 	{
 		// Create a product.
 		$productID = $I->memberMouseCreateProduct(
-			I: $I,
+			$I,
 			name: 'Product',
 			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
 		);
@@ -111,7 +111,7 @@ class ProductTagCest
 
 		// Complete checkout.
 		$I->memberMouseCheckoutProduct(
-			I: $I,
+			$I,
 			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'],
 			emailAddress: $emailAddress
 		);
