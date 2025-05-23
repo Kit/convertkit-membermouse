@@ -38,7 +38,11 @@ class ProductTagCest
 	public function testMemberTaggedWhenProductPurchased(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Setup Plugin to tag users purchasing the product to the
 		// ConvertKit Tag ID.
@@ -56,13 +60,21 @@ class ProductTagCest
 		$I->memberMouseLogOut($I);
 
 		// Complete checkout.
-		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
+		$I->memberMouseCheckoutProduct(
+			$I,
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'],
+			emailAddress: $emailAddress
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 	}
 
 	/**
@@ -76,7 +88,11 @@ class ProductTagCest
 	public function testMemberNotTaggedWhenProductPurchased(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Setup Plugin to not tag users purchasing the product to the
 		// ConvertKit Tag ID.
@@ -94,7 +110,11 @@ class ProductTagCest
 		$I->memberMouseLogOut($I);
 
 		// Complete checkout.
-		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
+		$I->memberMouseCheckoutProduct(
+			$I,
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'],
+			emailAddress: $emailAddress
+		);
 
 		// Check subscriber does not exist.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);

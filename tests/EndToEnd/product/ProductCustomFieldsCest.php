@@ -38,7 +38,11 @@ class ProductCustomFieldsCest
 	public function testMemberCustomFieldsWhenProductPurchased(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Setup Plugin to tag users purchasing the bundle to the
 		// Kit Tag ID, and store the Last Name in the Kit
@@ -58,19 +62,27 @@ class ProductCustomFieldsCest
 		$I->memberMouseLogOut($I);
 
 		// Complete checkout.
-		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
+		$I->memberMouseCheckoutProduct(
+			$I,
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'],
+			emailAddress: $emailAddress
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 
 		// Check that the subscriber has the custom field data.
 		$I->apiCustomFieldDataIsValid(
 			$I,
-			$subscriber,
-			[
+			subscriber: $subscriber,
+			customFields: [
 				'last_name' => 'Last',
 			]
 		);

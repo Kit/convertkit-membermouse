@@ -38,10 +38,18 @@ class BundleCustomFieldsCest
 	public function testMemberCustomFieldsWhenBundleAdded(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Setup Plugin to tag users purchasing the bundle to the
 		// Kit Tag ID, and store the Last Name in the Kit
@@ -61,19 +69,27 @@ class BundleCustomFieldsCest
 		$I->memberMouseLogOut($I);
 
 		// Complete checkout.
-		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
+		$I->memberMouseCheckoutProduct(
+			$I,
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'],
+			emailAddress: $emailAddress
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 
 		// Check that the subscriber has the custom field data.
 		$I->apiCustomFieldDataIsValid(
 			$I,
-			$subscriber,
-			[
+			subscriber: $subscriber,
+			customFields: [
 				'last_name' => 'Last',
 			]
 		);
@@ -90,10 +106,18 @@ class BundleCustomFieldsCest
 	public function testMemberCustomFieldsWhenBundleReactivated(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Generate email address for test.
 		$emailAddress = $I->generateEmailAddress();
@@ -105,13 +129,21 @@ class BundleCustomFieldsCest
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Assign bundle.
-		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
+		$I->memberMouseAssignBundleToMember(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber does not exist, as no tagging took place.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Cancel the user's bundle.
-		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseCancelMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber does not exist, as no tagging took place.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
@@ -128,19 +160,27 @@ class BundleCustomFieldsCest
 		);
 
 		// Re-activate the user's bundle.
-		$I->memberMouseResumeMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseResumeMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the bundle's tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 
 		// Check that the subscriber has the custom field data.
 		$I->apiCustomFieldDataIsValid(
 			$I,
-			$subscriber,
-			[
+			subscriber: $subscriber,
+			customFields: [
 				'last_name' => 'Last',
 			]
 		);

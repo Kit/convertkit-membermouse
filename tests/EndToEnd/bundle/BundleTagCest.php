@@ -38,10 +38,18 @@ class BundleTagCest
 	public function testMemberTaggedWhenBundleAdded(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Setup Plugin to tag users purchasing the bundle to the
 		// ConvertKit Tag ID.
@@ -59,13 +67,21 @@ class BundleTagCest
 		$I->memberMouseLogOut($I);
 
 		// Complete checkout.
-		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
+		$I->memberMouseCheckoutProduct(
+			$I,
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'],
+			emailAddress: $emailAddress
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 	}
 
 	/**
@@ -80,10 +96,18 @@ class BundleTagCest
 	public function testMemberTaggedWhenBundleReactivated(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Generate email address for test.
 		$emailAddress = $I->generateEmailAddress();
@@ -95,13 +119,21 @@ class BundleTagCest
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Assign bundle.
-		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
+		$I->memberMouseAssignBundleToMember(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber does not exist, as no tagging took place.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Cancel the user's bundle.
-		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseCancelMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber does not exist, as no tagging took place.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
@@ -115,13 +147,21 @@ class BundleTagCest
 		);
 
 		// Re-activate the user's bundle.
-		$I->memberMouseResumeMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseResumeMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the bundle's tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 	}
 
 	/**
@@ -135,10 +175,18 @@ class BundleTagCest
 	public function testMemberTaggedWhenBundleCancelled(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Setup Plugin to tag users when the bundle is cancelled.
 		$I->setupConvertKitPlugin(
@@ -158,19 +206,31 @@ class BundleTagCest
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Assign bundle.
-		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
+		$I->memberMouseAssignBundleToMember(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber does not exist, as no tagging took place.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Cancel the user's bundle.
-		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseCancelMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the cancelled tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_CANCEL_ID']
+		);
 	}
 
 	/**
@@ -183,10 +243,18 @@ class BundleTagCest
 	public function testMemberTagRemovedWhenBundleCancelled(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Setup Plugin to tag users purchasing the bundle to the
 		// ConvertKit Tag ID.
@@ -205,7 +273,11 @@ class BundleTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Assign bundle.
-		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
+		$I->memberMouseAssignBundleToMember(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
@@ -214,7 +286,11 @@ class BundleTagCest
 		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
 
 		// Cancel the user's bundle.
-		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseCancelMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber is no longer assigned to the tag.
 		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
@@ -231,10 +307,18 @@ class BundleTagCest
 	public function testMemberNotTaggedWhenBundleAdded(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Setup Plugin to not tag users purchasing the bundle to the
 		// ConvertKit Tag ID.
@@ -252,7 +336,11 @@ class BundleTagCest
 		$I->memberMouseLogOut($I);
 
 		// Complete checkout.
-		$I->memberMouseCheckoutProduct($I, $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'], $emailAddress);
+		$I->memberMouseCheckoutProduct(
+			$I,
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY'],
+			emailAddress: $emailAddress
+		);
 
 		// Check subscriber does not exist.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
@@ -269,10 +357,18 @@ class BundleTagCest
 	public function testMemberNotTaggedWhenBundleReactivated(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Generate email address for test.
 		$emailAddress = $I->generateEmailAddress();
@@ -284,19 +380,31 @@ class BundleTagCest
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Assign bundle.
-		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
+		$I->memberMouseAssignBundleToMember(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber does not exist, as no tagging took place.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Cancel the user's bundle.
-		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseCancelMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber does not exist, as no tagging took place.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 
 		// Re-activate the user's bundle.
-		$I->memberMouseResumeMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseResumeMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber does not exist, as no tagging took place.
 		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
@@ -313,10 +421,18 @@ class BundleTagCest
 	public function testMemberNotTaggedWhenBundleCancelled(EndToEndTester $I)
 	{
 		// Create a product.
-		$productID = $I->memberMouseCreateProduct($I, 'Product', $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']);
+		$productID = $I->memberMouseCreateProduct(
+			$I,
+			name: 'Product',
+			key: $_ENV['MEMBERMOUSE_PRODUCT_REFERENCE_KEY']
+		);
 
 		// Create bundle.
-		$bundleID = $I->memberMouseCreateBundle($I, 'Bundle', [ $productID ]);
+		$bundleID = $I->memberMouseCreateBundle(
+			$I,
+			name: 'Bundle',
+			productIDs: [ $productID ]
+		);
 
 		// Setup Plugin to tag users purchasing the bundle to the
 		// ConvertKit Tag ID.
@@ -335,20 +451,40 @@ class BundleTagCest
 		$I->memberMouseCreateMember($I, $emailAddress);
 
 		// Assign bundle.
-		$I->memberMouseAssignBundleToMember($I, $emailAddress, 'Bundle');
+		$I->memberMouseAssignBundleToMember(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber was tagged.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 
 		// Cancel the user's bundle.
-		$I->memberMouseCancelMemberBundle($I, $emailAddress, 'Bundle');
+		$I->memberMouseCancelMemberBundle(
+			$I,
+			emailAddress: $emailAddress,
+			bundleName: 'Bundle'
+		);
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
-		$I->apiCheckSubscriberTagCount($I, $subscriber['id'], 1);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
+		$I->apiCheckSubscriberTagCount(
+			$I,
+			subscriberID: $subscriber['id'],
+			numberOfTags: 1
+		);
 	}
 
 	/**

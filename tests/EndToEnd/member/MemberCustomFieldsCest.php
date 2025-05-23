@@ -58,13 +58,17 @@ class MemberCustomFieldsCest
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 
 		// Check that the subscriber has the custom field data.
 		$I->apiCustomFieldDataIsValid(
 			$I,
-			$subscriber,
-			[
+			subscriber: $subscriber,
+			customFields: [
 				'last_name' => 'Last',
 			]
 		);
@@ -114,13 +118,17 @@ class MemberCustomFieldsCest
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
 		// Check that the subscriber has been assigned to the tag.
-		$I->apiCheckSubscriberHasTag($I, $subscriber['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+		$I->apiCheckSubscriberHasTag(
+			$I,
+			subscriberID: $subscriber['id'],
+			tagID: $_ENV['CONVERTKIT_API_TAG_ID']
+		);
 
 		// Check that the subscriber has the custom field data.
 		$I->apiCustomFieldDataIsValid(
 			$I,
-			$subscriber,
-			[
+			subscriber: $subscriber,
+			customFields: [
 				'last_name' => 'Last',
 			]
 		);
