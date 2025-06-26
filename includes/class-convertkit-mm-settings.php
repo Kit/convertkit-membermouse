@@ -50,6 +50,7 @@ class ConvertKit_MM_Settings {
 		}
 
 		// Update Access Token when refreshed by the API class.
+		add_action( 'convertkit_api_get_access_token', array( $this, 'update_credentials' ), 10, 2 );
 		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 2 );
 
 	}
@@ -281,8 +282,8 @@ class ConvertKit_MM_Settings {
 	}
 
 	/**
-	 * Saves the new access token, refresh token and its expiry when the API
-	 * class automatically refreshes an outdated access token.
+	 * Saves the new access token, refresh token and its expiry, and schedules
+	 * a WordPress Cron event to refresh the token on expiry.
 	 *
 	 * @since   1.3.0
 	 *
@@ -304,6 +305,12 @@ class ConvertKit_MM_Settings {
 				'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
 			)
 		);
+
+		// Clear any existing scheduled WordPress Cron event.
+		wp_clear_scheduled_hook( 'convertkit_mm_refresh_token' );
+
+		// Schedule a WordPress Cron event to refresh the token on expiry.
+		wp_schedule_single_event( ( $result['created_at'] + $result['expires_in'] ), 'convertkit_mm_refresh_token' );
 
 	}
 
