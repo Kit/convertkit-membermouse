@@ -55,7 +55,8 @@ jobs:
           'EndToEnd/general',
           'EndToEnd/member',
           'EndToEnd/member-update',
-          'EndToEnd/product'
+          'EndToEnd/product',
+          'Integration'
         ]
 
     # Steps to install, configure and run tests
