@@ -61,6 +61,7 @@ require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-resource-tags.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm-settings.php';
 require CONVERTKIT_MM_PATH . 'includes/class-convertkit-mm.php';
 require CONVERTKIT_MM_PATH . 'includes/convertkit-mm-functions.php';
+require CONVERTKIT_MM_PATH . 'includes/cron-functions.php';
 require CONVERTKIT_MM_PATH . 'admin/class-convertkit-mm-admin.php';
 
 /**
