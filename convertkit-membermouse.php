@@ -15,7 +15,7 @@
  * Plugin Name:       Kit (formerly ConvertKit) for MemberMouse
  * Plugin URI:        http://www.kit.com
  * Description:       This plugin integrates Kit with MemberMouse.
- * Version:           1.3.2
+ * Version:           1.3.3
  * Author:            Kit
  * Author URI:        https://kit.com
  * License:           GPLv3 or later
