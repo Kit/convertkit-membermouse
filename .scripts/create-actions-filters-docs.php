@@ -15,9 +15,9 @@ $read_actions_filters = new Read_Actions_Filters();
 $filter_docs = $read_actions_filters->run(
 	// Define Plugin folders to include in Docs.
 	array(
-		'../admin',
-		'../includes',
-		'../views',
+		'admin',
+		'includes',
+		'views',
 	),
 	true, // Extract filters.
 	false, // Extract actions.
@@ -29,9 +29,9 @@ $filter_docs = $read_actions_filters->run(
 $action_docs = $read_actions_filters->run(
 	// Define Plugin folders to include in Docs.
 	array(
-		'../admin',
-		'../includes',
-		'../views',
+		'admin',
+		'includes',
+		'views',
 	),
 	false, // Extract filters.
 	true, // Extract actions.

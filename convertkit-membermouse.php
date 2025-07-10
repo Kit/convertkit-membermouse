@@ -34,7 +34,7 @@ define( 'CONVERTKIT_MM_NAME', 'convertkit-mm' ); // Used for settings.
 define( 'CONVERTKIT_MM_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_MM_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_MM_PATH', plugin_dir_path( __FILE__ ) );
-define( 'CONVERTKIT_MM_VERSION', '1.3.2' );
+define( 'CONVERTKIT_MM_VERSION', '1.3.3' );
 define( 'CONVERTKIT_MM_OAUTH_CLIENT_ID', 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw' );
 define( 'CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI', 'https://app.kit.com/wordpress/redirect' );
 
