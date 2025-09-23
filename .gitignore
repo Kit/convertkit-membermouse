@@ -7,6 +7,8 @@ log
 log.txt
 log-api.txt
 log-tag.txt
+node_modules
+package-lock.json
 phpstan.neon
 tests/_output
 tests/_wordpress

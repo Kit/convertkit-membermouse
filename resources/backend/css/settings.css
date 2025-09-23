@@ -4,6 +4,7 @@
 body.settings_page_convertkit-mm {
 	background: #f9f7f4;
 }
+
 body.settings_page_convertkit-mm #wpcontent {
 	padding-left: 0;
 }
@@ -16,8 +17,9 @@ body.settings_page_convertkit-mm header {
 	padding: 0 20px;
 	background: url(../images/kit-logo.svg) 30px 50% no-repeat;
 	background-size: 75px auto;
-	background-color: #ffffff;
+	background-color: #fff;
 }
+
 body.settings_page_convertkit-mm h1 {
 	margin: 0;
 	padding: 0;
@@ -25,6 +27,7 @@ body.settings_page_convertkit-mm h1 {
 	color: #D2D8DD;
 	text-indent: -9999px;
 }
+
 body.settings_page_convertkit-mm header a.convertkit-docs {
 	float: right;
 	margin: 20px 20px 0 0;
@@ -35,6 +38,7 @@ body.settings_page_convertkit-mm header a.convertkit-docs {
 	background: url(../images/help.svg) 0 0% no-repeat;
 	background-size: 20px 20px;
 }
+
 body.settings_page_convertkit-mm .wrap {
 	margin-left: 20px;
 }
@@ -58,9 +62,11 @@ body.settings_page_convertkit-mm .wrap .postbox {
 	border-radius: 8px;
 	border: none;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox .section {
 	margin-top: 40px;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox h2 {
 	margin: 0 0 30px 0;
 	padding: 0 0 30px 0;
@@ -69,19 +75,24 @@ body.settings_page_convertkit-mm .wrap .postbox h2 {
 	border-bottom: 1px solid #e3e3e3;
 	color: #3d3d3d;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox p {
 	font-size: 14px;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox p.submit {
 	padding: 0;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox table.form-table tbody td div {
 	display: inline-block;
 	width: 50%;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox table.form-table tbody td div label {
 	display: block;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox .button {
 	margin: 0 5px 0 0;
 	padding: 4px 12px;
@@ -93,24 +104,29 @@ body.settings_page_convertkit-mm .wrap .postbox .button {
 	text-shadow: none;
 	box-shadow: none;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox .button-primary {
 	background: #1e1e1e;
 	border-color: #1e1e1e;
 	color: #fff;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox .button-primary:hover {
 	background: #3d3d3d;
 	border-color: #3d3d3d;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox .button-secondary {
 	background: #f0f0f0;
 	border-color: #f0f0f0;
 	color: #3d3d3d;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox .button-secondary:hover {
 	background: #ddd;
 	border-color: #ddd;
 }
+
 body.settings_page_convertkit-mm .wrap .postbox textarea.convertkit-monospace {
 	font-family: monospace;
 	padding: 20px;
