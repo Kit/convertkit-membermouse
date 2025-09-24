@@ -3,6 +3,7 @@
 /.scripts
 /.wordpress-org
 /log
+/node_modules
 /tests
 /vendor/autoload.php
 /vendor/composer
@@ -14,7 +15,9 @@
 .env.example
 .env.testing
 .env
+.eslintrc.js
 .gitignore
+.stylelintrc.json
 ACTIONS-FILTERS.md
 codeception.dist.yml
 codeception.yml
@@ -24,6 +27,8 @@ convertkit.zip
 DEPLOYMENT.md
 DEVELOPMENT.md
 LICENSE
+package-lock.json
+package.json
 log.txt
 log-api.txt
 phpcs.xml
