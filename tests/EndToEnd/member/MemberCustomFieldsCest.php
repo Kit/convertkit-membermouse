@@ -145,6 +145,7 @@ class MemberCustomFieldsCest
 	 */
 	public function _passed(EndToEndTester $I)
 	{
+		$I->deactivateThirdPartyPlugin($I, 'membermouse-platform');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
