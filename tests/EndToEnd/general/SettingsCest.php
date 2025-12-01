@@ -23,7 +23,6 @@ class SettingsCest
 		// Activate Plugins.
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'membermouse-platform');
-		$I->memberMouseSetupPlugin($I);
 	}
 
 	/**
