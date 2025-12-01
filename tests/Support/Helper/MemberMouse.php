@@ -234,37 +234,6 @@ class MemberMouse extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to setup the MemberMouse Plugin for tests
-	 *
-	 * @since   1.2.0
-	 *
-	 * @param   EndToEndTester $I             Tester.
-	 */
-	public function memberMouseSetupPlugin($I)
-	{
-		// Define test payment service.
-		$I->dontHaveInDatabase('wp_mm_payment_services', [ 'token' => 'TEST' ]);
-		$I->haveInDatabase(
-			'wp_mm_payment_services',
-			[
-				'id'     => 14,
-				'token'  => 'TEST',
-				'name'   => serialize(
-					[
-						'mode'                           => 'always-override',
-						'testProcessorOverrideKey'       => '',
-						'productionProcessorOverrideKey' => '',
-					]
-				),
-				'active' => 1,
-			]
-		);
-
-		// Don't use MemberMouse login page, as it breaks some tests when cleaning up / deactivating Plugins.
-		$I->haveOptionInDatabase('mm-option-use-mm-login-page', '0');
-	}
-
-	/**
 	 * Helper method to log out from WordPress when MemberMouse is enabled.
 	 * We don't use logOut() as MemberMouse hijacks the logout process with a redirect,
 	 * resulting in the logOut() assertion `loggedout=true` failing.

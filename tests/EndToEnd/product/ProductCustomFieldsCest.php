@@ -50,7 +50,7 @@ class ProductCustomFieldsCest
 			$I,
 			[
 				'convertkit-mapping-product-' . $productID => $_ENV['CONVERTKIT_API_TAG_ID'],
-				'custom_field_last_name'       => 'last_name',
+				'custom_field_last_name'                   => 'last_name',
 			]
 		);
 
