@@ -24,7 +24,6 @@ class ProductTagCest
 		// Activate Plugins.
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'membermouse-platform');
-		$I->memberMouseSetupPlugin($I);
 	}
 
 	/**
@@ -49,7 +48,7 @@ class ProductTagCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'convertkit-mapping-product-1' => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'convertkit-mapping-product-' . $productID => $_ENV['CONVERTKIT_API_TAG_ID'],
 			]
 		);
 
@@ -99,7 +98,7 @@ class ProductTagCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'convertkit-mapping-product-1' => '',
+				'convertkit-mapping-product-' . $productID => '',
 			]
 		);
 
