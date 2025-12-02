@@ -24,7 +24,6 @@ class ProductCustomFieldsCest
 		// Activate Plugins.
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'membermouse-platform');
-		$I->memberMouseSetupPlugin($I);
 	}
 
 	/**
@@ -50,8 +49,8 @@ class ProductCustomFieldsCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'convertkit-mapping-product-1' => $_ENV['CONVERTKIT_API_TAG_ID'],
-				'custom_field_last_name'       => 'last_name',
+				'convertkit-mapping-product-' . $productID => $_ENV['CONVERTKIT_API_TAG_ID'],
+				'custom_field_last_name'                   => 'last_name',
 			]
 		);
 
