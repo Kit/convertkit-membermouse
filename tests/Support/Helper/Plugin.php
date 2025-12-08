@@ -83,5 +83,14 @@ class Plugin extends \Codeception\Module
 	{
 		// Plugin Settings.
 		$I->dontHaveOptionInDatabase('convertkit-mm-options');
+
+		// Resources.
+		$I->dontHaveOptionInDatabase('convertkit-mm-custom-fields');
+		$I->dontHaveOptionInDatabase('convertkit-mm-custom-fields_last_queried');
+		$I->dontHaveOptionInDatabase('convertkit-mm-tags');
+		$I->dontHaveOptionInDatabase('convertkit-mm-tags_last_queried');
+
+		// Persistent notices.
+		$I->dontHaveOptionInDatabase('convertkit-mm-admin-notices');
 	}
 }
