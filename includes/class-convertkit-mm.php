@@ -55,7 +55,7 @@ class ConvertKit_MM {
 	public function __construct() {
 
 		// Initialize.
-		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'init', array( $this, 'init' ), 1 );
 
 	}
 
@@ -86,6 +86,7 @@ class ConvertKit_MM {
 		}
 
 		$this->classes['admin'] = new ConvertKit_MM_Admin();
+		$this->classes['admin_notices'] = new ConvertKit_MM_Admin_Notices();
 
 		/**
 		 * Initialize integration classes for the WordPress Administration interface.

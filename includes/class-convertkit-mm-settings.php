@@ -49,10 +49,6 @@ class ConvertKit_MM_Settings {
 			$this->settings = array_merge( $this->get_defaults(), $settings );
 		}
 
-		// Update Access Token when refreshed by the API class.
-		add_action( 'convertkit_api_get_access_token', array( $this, 'update_credentials' ), 10, 2 );
-		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 2 );
-
 	}
 
 	/**
@@ -287,16 +283,13 @@ class ConvertKit_MM_Settings {
 	 *
 	 * @since   1.3.0
 	 *
-	 * @param   array  $result      New Access Token, Refresh Token and Expiry.
-	 * @param   string $client_id   OAuth Client ID used for the Access and Refresh Tokens.
+	 * @param   array $result      New Access Token, Refresh Token and Expiry.
 	 */
-	public function update_credentials( $result, $client_id ) {
+	public function update_credentials( $result ) {
 
-		// Don't save these credentials if they're not for this Client ID.
-		// They're for another ConvertKit Plugin that uses OAuth.
-		if ( $client_id !== CONVERTKIT_MM_OAUTH_CLIENT_ID ) {
-			return;
-		}
+		// Remove any existing persistent notice.
+		$admin_notices = new ConvertKit_MM_Admin_Notices();
+		$admin_notices->delete( 'authorization_failed' );
 
 		$this->save(
 			array(
@@ -328,6 +321,9 @@ class ConvertKit_MM_Settings {
 				'token_expires' => '',
 			)
 		);
+
+		// Clear any existing scheduled WordPress Cron event.
+		wp_clear_scheduled_hook( 'convertkit_mm_refresh_token' );
 
 	}
 
