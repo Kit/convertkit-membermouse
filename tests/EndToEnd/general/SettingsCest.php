@@ -90,6 +90,9 @@ class SettingsCest
 		$I->see('Connect');
 		$I->dontSee('Disconnect');
 		$I->dontSeeElementInDOM('input#submit');
+
+		// Check that a notice is displayed that the API credentials are invalid.
+		$I->seeErrorNotice($I, 'Kit for MemberMouse: Authorization failed. Please connect your Kit account.');
 	}
 
 	/**
@@ -121,6 +124,15 @@ class SettingsCest
 		// Confirm the Disconnect and Save Settings buttons display.
 		$I->see('Disconnect');
 		$I->seeElementInDOM('input#submit');
+
+		// Navigate to the WordPress Admin.
+		$I->amOnAdminPage('index.php');
+
+		// Check that no notice is displayed that the API credentials are invalid.
+		$I->dontSeeErrorNotice($I, 'Kit for MemberMouse: Authorization failed. Please connect your Kit account.');
+
+		// Go to the Plugin's Settings Screen.
+		$I->amOnAdminPage('options-general.php?page=convertkit-mm');
 
 		// Disconnect the Plugin connection to ConvertKit.
 		$I->click('Disconnect');
