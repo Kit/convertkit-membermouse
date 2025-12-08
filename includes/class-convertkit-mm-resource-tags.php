@@ -2,7 +2,7 @@
 /**
  * ConvertKit Tags Resource class.
  *
- * @package ConvertKit_WPForms
+ * @package ConvertKit_MM
  * @author ConvertKit
  */
 
