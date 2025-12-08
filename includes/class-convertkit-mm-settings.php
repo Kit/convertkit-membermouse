@@ -118,6 +118,9 @@ class ConvertKit_MM_Settings {
 	 */
 	public function get_access_token() {
 
+		// Reload settings from options table, to ensure we have the latest tokens.
+		$this->refresh_settings();
+
 		// Return Access Token from settings.
 		return $this->settings['access_token'];
 
@@ -144,6 +147,9 @@ class ConvertKit_MM_Settings {
 	 * @return  string
 	 */
 	public function get_refresh_token() {
+
+		// Reload settings from options table, to ensure we have the latest tokens.
+		$this->refresh_settings();
 
 		// Return Refresh Token from settings.
 		return $this->settings['refresh_token'];
@@ -406,7 +412,25 @@ class ConvertKit_MM_Settings {
 		update_option( self::SETTINGS_NAME, array_merge( $this->get(), $settings ) );
 
 		// Reload settings in class, to reflect changes.
-		$this->settings = get_option( self::SETTINGS_NAME );
+		$this->refresh_settings();
+
+	}
+
+	/**
+	 * Reloads settings from the options table so this instance has the latest values.
+	 *
+	 * @since  1.3.7
+	 */
+	private function refresh_settings() {
+
+		$settings = get_option( self::SETTINGS_NAME );
+
+		if ( ! $settings ) {
+			$this->settings = $this->get_defaults();
+			return;
+		}
+
+		$this->settings = array_merge( $this->get_defaults(), $settings );
 
 	}
 

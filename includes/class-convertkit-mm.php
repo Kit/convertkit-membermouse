@@ -85,7 +85,7 @@ class ConvertKit_MM {
 			return;
 		}
 
-		$this->classes['admin'] = new ConvertKit_MM_Admin();
+		$this->classes['admin']         = new ConvertKit_MM_Admin();
 		$this->classes['admin_notices'] = new ConvertKit_MM_Admin_Notices();
 
 		/**
