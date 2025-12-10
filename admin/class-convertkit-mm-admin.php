@@ -203,8 +203,7 @@ class ConvertKit_MM_Admin {
 				// Remove from settings.
 				$this->settings->delete_credentials();
 
-				// Redirect to General screen, which will now show the ConvertKit_Settings_OAuth screen, because
-				// the Plugin has no access token.
+				// Reload settings screen, to reflect no credentials exist.
 				wp_safe_redirect(
 					add_query_arg(
 						array(
