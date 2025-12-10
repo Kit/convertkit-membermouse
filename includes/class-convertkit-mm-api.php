@@ -1,15 +1,15 @@
 <?php
 /**
- * ConvertKit API class for WPForms.
+ * ConvertKit API class for MemberMouse.
  *
- * @package ConvertKit_WPForms
+ * @package ConvertKit_MM
  * @author ConvertKit
  */
 
 /**
- * ConvertKit API class for WPForms.
+ * ConvertKit API class for MemberMouse.
  *
- * @package ConvertKit_WPForms
+ * @package ConvertKit_MM
  * @author ConvertKit
  */
 class ConvertKit_MM_API extends ConvertKit_API_V4 {
