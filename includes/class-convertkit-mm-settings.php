@@ -49,10 +49,6 @@ class ConvertKit_MM_Settings {
 			$this->settings = array_merge( $this->get_defaults(), $settings );
 		}
 
-		// Update Access Token when refreshed by the API class.
-		add_action( 'convertkit_api_get_access_token', array( $this, 'update_credentials' ), 10, 2 );
-		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 2 );
-
 	}
 
 	/**
@@ -122,6 +118,9 @@ class ConvertKit_MM_Settings {
 	 */
 	public function get_access_token() {
 
+		// Reload settings from options table, to ensure we have the latest tokens.
+		$this->refresh_settings();
+
 		// Return Access Token from settings.
 		return $this->settings['access_token'];
 
@@ -148,6 +147,9 @@ class ConvertKit_MM_Settings {
 	 * @return  string
 	 */
 	public function get_refresh_token() {
+
+		// Reload settings from options table, to ensure we have the latest tokens.
+		$this->refresh_settings();
 
 		// Return Refresh Token from settings.
 		return $this->settings['refresh_token'];
@@ -287,16 +289,13 @@ class ConvertKit_MM_Settings {
 	 *
 	 * @since   1.3.0
 	 *
-	 * @param   array  $result      New Access Token, Refresh Token and Expiry.
-	 * @param   string $client_id   OAuth Client ID used for the Access and Refresh Tokens.
+	 * @param   array $result      New Access Token, Refresh Token and Expiry.
 	 */
-	public function update_credentials( $result, $client_id ) {
+	public function update_credentials( $result ) {
 
-		// Don't save these credentials if they're not for this Client ID.
-		// They're for another ConvertKit Plugin that uses OAuth.
-		if ( $client_id !== CONVERTKIT_MM_OAUTH_CLIENT_ID ) {
-			return;
-		}
+		// Remove any existing persistent notice.
+		$admin_notices = new ConvertKit_MM_Admin_Notices();
+		$admin_notices->delete( 'authorization_failed' );
 
 		$this->save(
 			array(
@@ -328,6 +327,9 @@ class ConvertKit_MM_Settings {
 				'token_expires' => '',
 			)
 		);
+
+		// Clear any existing scheduled WordPress Cron event.
+		wp_clear_scheduled_hook( 'convertkit_mm_refresh_token' );
 
 	}
 
@@ -410,7 +412,25 @@ class ConvertKit_MM_Settings {
 		update_option( self::SETTINGS_NAME, array_merge( $this->get(), $settings ) );
 
 		// Reload settings in class, to reflect changes.
-		$this->settings = get_option( self::SETTINGS_NAME );
+		$this->refresh_settings();
+
+	}
+
+	/**
+	 * Reloads settings from the options table so this instance has the latest values.
+	 *
+	 * @since  1.3.7
+	 */
+	private function refresh_settings() {
+
+		$settings = get_option( self::SETTINGS_NAME );
+
+		if ( ! $settings ) {
+			$this->settings = $this->get_defaults();
+			return;
+		}
+
+		$this->settings = array_merge( $this->get_defaults(), $settings );
 
 	}
 
