@@ -5,7 +5,7 @@ Tags: convertkit, email, marketing, membermouse
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.1
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -40,8 +40,10 @@ No. You must first have an account on [kit.com](https://kit.com?utm_source=wordp
 
 == Changelog ==
 
+### 1.3.7 2025-12-11
+* Fix: Settings: Improve logic to automatically delete invalid Access Tokens
+
 ### 1.3.6 2025-12-03
-* Fix: Settings: Disconnect: Remove cached Custom Fields and Sequences
 * Updated: Use WordPress Libraries 2.1.2
 
 ### 1.3.5 2025-11-20
