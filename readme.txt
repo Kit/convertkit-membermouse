@@ -40,7 +40,7 @@ No. You must first have an account on [kit.com](https://kit.com?utm_source=wordp
 
 == Changelog ==
 
-### 1.3.7 2025-12-03
+### 1.3.7 2025-12-11
 * Fix: Settings: Improve logic to automatically delete invalid Access Tokens
 
 ### 1.3.6 2025-12-03
