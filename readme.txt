@@ -5,7 +5,7 @@ Tags: convertkit, email, marketing, membermouse
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.1
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,6 +39,9 @@ This plugin integrates Kit with Member Mouse.
 No. You must first have an account on [kit.com](https://kit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme), but you do not have to use a paid plan!
 
 == Changelog ==
+
+### 1.3.8 2025-12-18
+* Updated: Use WordPress Libraries 2.1.3
 
 ### 1.3.7 2025-12-11
 * Fix: Settings: Improve logic to automatically delete invalid Access Tokens

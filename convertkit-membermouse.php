@@ -15,7 +15,7 @@
  * Plugin Name:       Kit (formerly ConvertKit) for MemberMouse
  * Plugin URI:        http://www.kit.com
  * Description:       This plugin integrates Kit with MemberMouse.
- * Version:           1.3.7
+ * Version:           1.3.8
  * Author:            Kit
  * Author URI:        https://kit.com
  * License:           GPLv3 or later
@@ -34,7 +34,7 @@ define( 'CONVERTKIT_MM_NAME', 'convertkit-mm' ); // Used for settings.
 define( 'CONVERTKIT_MM_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_MM_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_MM_PATH', plugin_dir_path( __FILE__ ) );
-define( 'CONVERTKIT_MM_VERSION', '1.3.7' );
+define( 'CONVERTKIT_MM_VERSION', '1.3.8' );
 define( 'CONVERTKIT_MM_OAUTH_CLIENT_ID', 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw' );
 define( 'CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI', 'https://app.kit.com/wordpress/redirect' );
 
