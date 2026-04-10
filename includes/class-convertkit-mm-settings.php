@@ -322,9 +322,15 @@ class ConvertKit_MM_Settings {
 
 		$this->save(
 			array(
+				// OAuth.
 				'access_token'  => '',
 				'refresh_token' => '',
 				'token_expires' => '',
+
+				// API Key.
+				// This Plugin never stored or used a v3 API Secret.
+				// It stored the v3 API Key as `api-key`, not `api_key`.
+				'api-key'       => '',
 			)
 		);
 

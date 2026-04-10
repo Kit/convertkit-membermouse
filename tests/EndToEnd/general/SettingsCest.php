@@ -130,20 +130,51 @@ class SettingsCest
 
 		// Check that no notice is displayed that the API credentials are invalid.
 		$I->dontSeeErrorNotice($I, 'Kit for MemberMouse: Authorization failed. Please connect your Kit account.');
+	}
+
+	/**
+	 * Test that the credentials and resources are deleted on disconnect.
+	 *
+	 * @since   1.4.0
+	 *
+	 * @param   EndToEndTester $I  Tester.
+	 */
+	public function testCredentialsAndResourcesAreDeletedOnDisconnect(EndToEndTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
 
 		// Go to the Plugin's Settings Screen.
 		$I->amOnAdminPage('options-general.php?page=convertkit-mm');
 
-		// Disconnect the Plugin connection to ConvertKit.
+		// Fake the API Key, API Secret, Access and Refresh Tokens; if we revoke the tokens used for tests, future tests will fail.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'access_token'  => 'fakeAccessToken',
+				'refresh_token' => 'fakeRefreshToken',
+				'token_expires' => time() + 3600,
+				'api-key'       => 'fakeAPIKey',
+			]
+		);
+
+		// Disconnect the Plugin connection to Kit.
 		$I->click('Disconnect');
+
+		// Check credentials are removed from the settings.
+		$settings = $I->grabOptionFromDatabase('convertkit-mm-options');
+		$I->assertEmpty($settings['access_token']);
+		$I->assertEmpty($settings['refresh_token']);
+		$I->assertEmpty($settings['token_expires']);
+		$I->assertEmpty($settings['api-key']);
+
+		// Check cached resources are removed from the database on disconnection.
+		$I->dontSeeOptionInDatabase('convertkit-mm-tags');
 
 		// Confirm the Connect button displays.
 		$I->see('Connect');
 		$I->dontSee('Disconnect');
 		$I->dontSeeElementInDOM('input#submit');
-
-		// Check that the option table no longer contains cached resources.
-		$I->dontSeeOptionInDatabase('convertkit-mm-tags');
 	}
 
 	/**
