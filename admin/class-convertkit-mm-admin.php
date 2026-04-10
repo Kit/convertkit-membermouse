@@ -254,7 +254,15 @@ class ConvertKit_MM_Admin {
 		// If another Kit Plugin is active and out of date, its libraries might
 		// be loaded that don't have this method.
 		if ( ! method_exists( $api, 'revoke_tokens' ) ) { // @phpstan-ignore-line Older WordPress Libraries won't have this function.
-			$this->output_error( __( 'The Kit WordPress Libraries is missing the `revoke_tokens` method. Please update all Kit WordPress Plugins to their latest versions, and click Disconnect again.', 'convertkit-mm' ) );
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'page'              => 'convertkit-mm',
+						'error_description' => __( 'The Kit WordPress Libraries is missing the `revoke_tokens` method. Please update all Kit WordPress Plugins to their latest versions, and click Disconnect again.', 'convertkit-mm' ),
+					),
+					'options-general.php'
+				)
+			);
 		}
 
 		// Revoke Access and Refresh Tokens.
@@ -262,8 +270,15 @@ class ConvertKit_MM_Admin {
 		// by the `convertkit_api_revoke_tokens` action and deletes credentials from the Plugin's settings.
 		$result = $api->revoke_tokens();
 		if ( is_wp_error( $result ) ) {
-			$this->output_error( $result->get_error_message() );
-			return;
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'page'              => 'convertkit-mm',
+						'error_description' => $result->get_error_message(),
+					),
+					'options-general.php'
+				)
+			);
 		}
 
 		// Delete cached resources.
