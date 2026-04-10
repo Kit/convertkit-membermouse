@@ -135,7 +135,7 @@ class SettingsCest
 	/**
 	 * Test that the credentials and resources are deleted on disconnect.
 	 *
-	 * @since   1.4.0
+	 * @since   1.4.1
 	 *
 	 * @param   EndToEndTester $I  Tester.
 	 */

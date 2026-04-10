@@ -254,9 +254,9 @@ class ConvertKit_MM_Admin {
 		// If another Kit Plugin is active and out of date, its libraries might
 		// be loaded that don't have this method.
 		if ( ! method_exists( $api, 'revoke_tokens' ) ) { // @phpstan-ignore-line Older WordPress Libraries won't have this function.
-			$this->output_error( __( 'The Kit WordPress Libraries is missing the `revoke_tokens` method. Please update all Kit WordPress Plugins to their latest versions, and click Disconnect again.', 'convertkit' ) );
+			$this->output_error( __( 'The Kit WordPress Libraries is missing the `revoke_tokens` method. Please update all Kit WordPress Plugins to their latest versions, and click Disconnect again.', 'convertkit-mm' ) );
 		}
-		
+
 		// Revoke Access and Refresh Tokens.
 		// See convertkit_delete_credentials() method in functions.php, which is called
 		// by the `convertkit_api_revoke_tokens` action and deletes credentials from the Plugin's settings.

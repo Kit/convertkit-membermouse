@@ -94,7 +94,7 @@ function convertkit_mm_maybe_delete_credentials( $result, $client_id ) {
  * and clears any existing scheduled WordPress Cron event to refresh the token on expiry,
  * when the user revokes the access token.
  *
- * @since   1.4.0
+ * @since   1.4.1
  *
  * @param   string $client_id   OAuth Client ID used for the Access and Refresh Tokens.
  */
