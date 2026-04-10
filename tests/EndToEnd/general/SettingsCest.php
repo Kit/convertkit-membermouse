@@ -147,7 +147,7 @@ class SettingsCest
 		// Go to the Plugin's Settings Screen.
 		$I->amOnAdminPage('options-general.php?page=convertkit-mm');
 
-		// Fake the API Key, API Secret, Access and Refresh Tokens; if we revoke the tokens used for tests, future tests will fail.
+		// Fake the API Key, Access and Refresh Tokens; if we revoke the tokens used for tests, future tests will fail.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
@@ -169,6 +169,9 @@ class SettingsCest
 		$I->assertEmpty($settings['api-key']);
 
 		// Check cached resources are removed from the database on disconnection.
+		$I->dontSeeOptionInDatabase('convertkit-mm-custom-fields');
+		$I->dontSeeOptionInDatabase('convertkit-mm-custom-fields_last_queried');
+		$I->dontSeeOptionInDatabase('convertkit-mm-tags');
 		$I->dontSeeOptionInDatabase('convertkit-mm-tags');
 
 		// Confirm the Connect button displays.

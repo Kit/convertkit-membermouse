@@ -86,8 +86,8 @@ class ConvertKit_MM_Admin {
 
 		// Run OAuth related actions.
 		$this->maybe_get_and_store_access_token();
-		$this->check_credentials();
 		$this->maybe_disconnect();
+		$this->check_credentials();
 
 	}
 
@@ -263,10 +263,11 @@ class ConvertKit_MM_Admin {
 					'options-general.php'
 				)
 			);
+			exit();
 		}
 
 		// Revoke Access and Refresh Tokens.
-		// See convertkit_delete_credentials() method in functions.php, which is called
+		// See convertkit_mm_delete_credentials() method in convertkit-mm-functions.php, which is called
 		// by the `convertkit_api_revoke_tokens` action and deletes credentials from the Plugin's settings.
 		$result = $api->revoke_tokens();
 		if ( is_wp_error( $result ) ) {
@@ -279,10 +280,13 @@ class ConvertKit_MM_Admin {
 					'options-general.php'
 				)
 			);
+			exit();
 		}
 
 		// Delete cached resources.
-		$tags = new ConvertKit_MM_Resource_Tags();
+		$custom_fields = new ConvertKit_MM_Resource_Custom_Fields();
+		$tags          = new ConvertKit_MM_Resource_Tags();
+		$custom_fields->delete();
 		$tags->delete();
 
 		// Redirect to General screen, which will now show the OAuth connect screen, because
