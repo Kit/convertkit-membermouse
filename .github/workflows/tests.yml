@@ -61,6 +61,7 @@ jobs:
           'EndToEnd/member',
           'EndToEnd/member-update',
           'EndToEnd/product',
+          'EndToEnd/uninstall',
           'Integration'
         ]
 
