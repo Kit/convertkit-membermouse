@@ -172,7 +172,7 @@ class SettingsCest
 		$I->dontSeeOptionInDatabase('convertkit-mm-custom-fields');
 		$I->dontSeeOptionInDatabase('convertkit-mm-custom-fields_last_queried');
 		$I->dontSeeOptionInDatabase('convertkit-mm-tags');
-		$I->dontSeeOptionInDatabase('convertkit-mm-tags');
+		$I->dontSeeOptionInDatabase('convertkit-mm-tags_last_queried');
 
 		// Confirm the Connect button displays.
 		$I->see('Connect');
