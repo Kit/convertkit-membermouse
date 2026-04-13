@@ -35,6 +35,8 @@ if ( array_key_exists( 'access_token', $settings ) && ! empty( $settings['access
 			),
 			'body'    => wp_json_encode(
 				array(
+					// Kit for MemberMouse Client ID.
+					// CONVERTKIT_MM_OAUTH_CLIENT_ID cannot be used, as the file its defined in is not available at uninstall time.
 					'client_id' => 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw',
 					'token'     => $settings['access_token'],
 				)
@@ -55,6 +57,8 @@ if ( array_key_exists( 'refresh_token', $settings ) && ! empty( $settings['refre
 			),
 			'body'    => wp_json_encode(
 				array(
+					// Kit for MemberMouse Client ID.
+					// CONVERTKIT_MM_OAUTH_CLIENT_ID cannot be used, as the file its defined in is not available at uninstall time.
 					'client_id' => 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw',
 					'token'     => $settings['refresh_token'],
 				)
