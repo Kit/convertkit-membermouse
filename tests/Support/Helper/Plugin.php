@@ -36,6 +36,19 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to delete the Kit Plugin, checking
+	 * it deleted and no errors were output.
+	 *
+	 * @since   1.4.1
+	 *
+	 * @param   EndToEndTester $I     EndToEndTester.
+	 */
+	public function deleteKitPlugin($I)
+	{
+		$I->deleteThirdPartyPlugin($I, 'convertkit-membermouse');
+	}
+
+	/**
 	 * Helper method to programmatically setup the Plugin's settings.
 	 *
 	 * @since   1.2.0

@@ -86,8 +86,8 @@ class ConvertKit_MM_Admin {
 
 		// Run OAuth related actions.
 		$this->maybe_get_and_store_access_token();
-		$this->check_credentials();
 		$this->maybe_disconnect();
+		$this->check_credentials();
 
 	}
 
@@ -241,11 +241,52 @@ class ConvertKit_MM_Admin {
 			return;
 		}
 
-		// Delete Access Token.
-		$this->settings->delete_credentials();
+		// Setup API.
+		$api = new ConvertKit_MM_API(
+			CONVERTKIT_MM_OAUTH_CLIENT_ID,
+			CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled()
+		);
+
+		// Check that we're using the Kit WordPress Libraries 2.1.4 or higher.
+		// If another Kit Plugin is active and out of date, its libraries might
+		// be loaded that don't have this method.
+		if ( ! method_exists( $api, 'revoke_tokens' ) ) { // @phpstan-ignore-line Older WordPress Libraries won't have this function.
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'page'              => 'convertkit-mm',
+						'error_description' => __( 'The Kit WordPress Libraries is missing the `revoke_tokens` method. Please update all Kit WordPress Plugins to their latest versions, and click Disconnect again.', 'convertkit-mm' ),
+					),
+					'options-general.php'
+				)
+			);
+			exit();
+		}
+
+		// Revoke Access and Refresh Tokens.
+		// See convertkit_mm_delete_credentials() method in convertkit-mm-functions.php, which is called
+		// by the `convertkit_api_revoke_tokens` action and deletes credentials from the Plugin's settings.
+		$result = $api->revoke_tokens();
+		if ( is_wp_error( $result ) ) {
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'page'              => 'convertkit-mm',
+						'error_description' => $result->get_error_message(),
+					),
+					'options-general.php'
+				)
+			);
+			exit();
+		}
 
 		// Delete cached resources.
-		$tags = new ConvertKit_MM_Resource_Tags();
+		$custom_fields = new ConvertKit_MM_Resource_Custom_Fields();
+		$tags          = new ConvertKit_MM_Resource_Tags();
+		$custom_fields->delete();
 		$tags->delete();
 
 		// Redirect to General screen, which will now show the OAuth connect screen, because

@@ -15,7 +15,7 @@
  * Plugin Name:       Kit (formerly ConvertKit) for MemberMouse
  * Plugin URI:        http://www.kit.com
  * Description:       This plugin integrates Kit with MemberMouse.
- * Version:           1.3.8
+ * Version:           1.4.2
  * Author:            Kit
  * Author URI:        https://kit.com
  * License:           GPLv3 or later
@@ -34,12 +34,12 @@ define( 'CONVERTKIT_MM_NAME', 'convertkit-mm' ); // Used for settings.
 define( 'CONVERTKIT_MM_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_MM_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_MM_PATH', plugin_dir_path( __FILE__ ) );
-define( 'CONVERTKIT_MM_VERSION', '1.3.8' );
+define( 'CONVERTKIT_MM_VERSION', '1.4.2' );
 define( 'CONVERTKIT_MM_OAUTH_CLIENT_ID', 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw' );
 define( 'CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI', 'https://app.kit.com/wordpress/redirect' );
 
 // Load shared classes, if they have not been included by another ConvertKit Plugin.
-if ( ! trait_exists( 'ConvertKit_API_Traits' ) ) {
+if ( ! trait_exists( 'ConvertKit_API_Traits' ) && ! trait_exists( 'ConvertKit_API\ConvertKit_API_Traits' ) ) {
 	require_once CONVERTKIT_MM_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api-traits.php';
 }
 if ( ! class_exists( 'ConvertKit_API_V4' ) ) {
