@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt
 Donate link: http://kit.com/
 Tags: convertkit, email, marketing, membermouse
 Requires at least: 5.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,6 +39,9 @@ This plugin integrates Kit with Member Mouse.
 No. You must first have an account on [kit.com](https://kit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme), but you do not have to use a paid plan!
 
 == Changelog ==
+
+### 1.4.3 2026-05-20
+* Fix: Settings: Button height in WordPress 7.0
 
 ### 1.4.2 2026-04-22
 * Updated: WordPress Libraries to 2.1.6
