@@ -95,9 +95,12 @@ body.settings_page_convertkit-mm .wrap .postbox table.form-table tbody td div la
 
 body.settings_page_convertkit-mm .wrap .postbox .button {
 	margin: 0 5px 0 0;
-	padding: 4px 12px;
+	padding: 0 12px;
 	font-size: 14px;
 	border-radius: 10px;
+
+	/* Required for WordPress 7.0 styling */
+	line-height: 2.8;
 
 	/* Required for WordPress 5.x styling */
 	height: auto;
