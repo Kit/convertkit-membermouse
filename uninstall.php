@@ -30,16 +30,14 @@ if ( array_key_exists( 'access_token', $settings ) && ! empty( $settings['access
 		'https://api.kit.com/v4/oauth/revoke',
 		array(
 			'headers' => array(
-				'Accept'       => 'application/json',
-				'Content-Type' => 'application/json',
+				'Content-Type' => 'application/x-www-form-urlencoded',
 			),
-			'body'    => wp_json_encode(
-				array(
-					// Kit for MemberMouse Client ID.
-					// CONVERTKIT_MM_OAUTH_CLIENT_ID cannot be used, as the file its defined in is not available at uninstall time.
-					'client_id' => 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw',
-					'token'     => $settings['access_token'],
-				)
+			'body'    => array(
+				// Kit for MemberMouse Client ID.
+				// CONVERTKIT_MM_OAUTH_CLIENT_ID cannot be used, as the file its defined in is not available at uninstall time.
+				'client_id'       => 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw',
+				'token'           => $settings['access_token'],
+				'token_type_hint' => 'access_token',
 			),
 			'timeout' => 5,
 		)
@@ -52,16 +50,14 @@ if ( array_key_exists( 'refresh_token', $settings ) && ! empty( $settings['refre
 		'https://api.kit.com/v4/oauth/revoke',
 		array(
 			'headers' => array(
-				'Accept'       => 'application/json',
-				'Content-Type' => 'application/json',
+				'Content-Type' => 'application/x-www-form-urlencoded',
 			),
-			'body'    => wp_json_encode(
-				array(
-					// Kit for MemberMouse Client ID.
-					// CONVERTKIT_MM_OAUTH_CLIENT_ID cannot be used, as the file its defined in is not available at uninstall time.
-					'client_id' => 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw',
-					'token'     => $settings['refresh_token'],
-				)
+			'body'    => array(
+				// Kit for MemberMouse Client ID.
+				// CONVERTKIT_MM_OAUTH_CLIENT_ID cannot be used, as the file its defined in is not available at uninstall time.
+				'client_id'       => 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw',
+				'token'           => $settings['refresh_token'],
+				'token_type_hint' => 'refresh_token',
 			),
 			'timeout' => 5,
 		)
