@@ -38,6 +38,9 @@ This plugin integrates Kit with Member Mouse.
 
 No. You must first have an account on [kit.com](https://kit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme), but you do not have to use a paid plan!
 
+= Where do I report security bugs found in this plugin? =
+Please report security bugs found in the source code of the plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/041009ed-912f-4a34-a358-73340fc8d26b). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
 == Changelog ==
 
 ### 1.4.3 2026-05-20
