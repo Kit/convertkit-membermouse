@@ -43,6 +43,10 @@ Please report security bugs found in the source code of the plugin through the [
 
 == Changelog ==
 
+### 1.4.4 2026-07-09
+* Fix: Uninstall: Improve Access and Refresh Token revokation
+* Updated: WordPress Libraries to 2.1.7
+
 ### 1.4.3 2026-05-20
 * Fix: Settings: Button height in WordPress 7.0
 
