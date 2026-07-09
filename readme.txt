@@ -5,7 +5,7 @@ Tags: convertkit, email, marketing, membermouse
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 7.1
-Stable tag: 1.4.3
+Stable tag: 1.4.4.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -43,7 +43,7 @@ Please report security bugs found in the source code of the plugin through the [
 
 == Changelog ==
 
-### 1.4.4 2026-07-09
+### 1.4.4.1 2026-07-09
 * Fix: Uninstall: Improve Access and Refresh Token revokation
 * Updated: WordPress Libraries to 2.1.7
 
