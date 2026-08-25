@@ -9,12 +9,6 @@
 /**
  * Debug log.
  *
- * Entries are written to the Plugin's log file in the uploads directory, prefixed
- * with the given log name. Prior to 1.4.6 each log name was written to its own
- * `log-{name}.txt` file in the Plugin's directory; any file in the Plugin's
- * directory that isn't part of the WordPress.org release causes
- * `wp plugin verify-checksums` to report the Plugin as modified.
- *
  * @since   1.0.2
  *
  * @param   string $log        Log name.
