@@ -5,7 +5,7 @@ Tags: convertkit, email, marketing, membermouse
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.1
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -42,6 +42,9 @@ No. You must first have an account on [kit.com](https://kit.com?utm_source=wordp
 Please report security bugs found in the source code of the plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/041009ed-912f-4a34-a358-73340fc8d26b). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Changelog ==
+
+### 1.4.6 2026-08-27
+* Updated: WordPress Libraries to 2.6.1
 
 ### 1.4.5 2026-08-19
 * Fix: Settings: Disconnect: Include OAuth client ID when revoking Access and Refresh Tokens
