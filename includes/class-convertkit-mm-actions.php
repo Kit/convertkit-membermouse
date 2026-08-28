@@ -194,7 +194,7 @@ class ConvertKit_MM_Actions {
 
 		// Subscribe and tag.
 		$this->add_tag_to_user( $user_email, $first_name, $tag_id, $custom_fields );
-		convertkit_mm_log( 'tag', 'Add tag ' . $tag_id . ' to user ' . $user_email . ' (' . $user_name . ')' );
+		convertkit_mm_log( 'tag', 'Add tag ' . $tag_id . ' to user ' . $user_email . ' (' . $first_name . ')' );
 
 	}
 

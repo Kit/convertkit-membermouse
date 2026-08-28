@@ -57,7 +57,7 @@ class ConvertKit_MM_Resource extends ConvertKit_Resource_V4 {
 		// If an error occured, maybe delete credentials from the Plugin's settings
 		// if the error is a 401 unauthorized.
 		if ( is_wp_error( $result ) ) {
-			convertkit_mm_maybe_delete_credentials( $result );
+			convertkit_mm_maybe_delete_credentials( $result, CONVERTKIT_MM_OAUTH_CLIENT_ID );
 		}
 
 		return $result;

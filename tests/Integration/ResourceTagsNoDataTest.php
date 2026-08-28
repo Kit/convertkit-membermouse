@@ -46,7 +46,7 @@ class ResourceTagsNoDataTest extends WPTestCase
 		parent::setUp();
 
 		// Activate Plugin.
-		activate_plugins('convertkit/wp-convertkit.php');
+		activate_plugins('convertkit-membermouse/convertkit-membermouse.php');
 
 		// Store credentials in Plugin's settings.
 		$this->settings = new \ConvertKit_MM_Settings();
@@ -87,7 +87,7 @@ class ResourceTagsNoDataTest extends WPTestCase
 		unset($this->resource);
 
 		// Deactivate Plugin.
-		deactivate_plugins('convertkit/wp-convertkit.php');
+		deactivate_plugins('convertkit-membermouse/convertkit-membermouse.php');
 
 		parent::tearDown();
 	}
