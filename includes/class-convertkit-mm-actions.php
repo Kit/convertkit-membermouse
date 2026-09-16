@@ -402,15 +402,56 @@ class ConvertKit_MM_Actions {
 		);
 
 		// Get subscriber ID using the last email address.
-		$subscriber_id = $api->get_subscriber_id( $last_email );
+		$subscriber_id = $this->get_subscriber_id_by_email( $api, $last_email );
 
 		// If no subscriber could be found, bail.
 		if ( ! $subscriber_id ) {
+			convertkit_mm_log( 'tag', 'Update subscriber ' . $last_email . ' failed; no subscriber found in Kit.' );
 			return;
 		}
 
 		// Update subscriber.
 		$api->update_subscriber( $subscriber_id, $first_name, $email, $custom_fields );
+
+	}
+
+	/**
+	 * Returns the subscriber ID for the given email address, retrying if no subscriber is found.
+	 *
+	 * Kit's subscribers endpoint is eventually consistent when querying by email address, so a
+	 * subscriber created moments ago may not be returned by the first request.
+	 *
+	 * @see https://developers.kit.com/api-reference/eventual-consistency
+	 *
+	 * @since   1.4.8
+	 *
+	 * @param   ConvertKit_MM_API $api        API instance.
+	 * @param   string            $email      Email Address.
+	 * @param   int               $attempts   Maximum number of requests to make.
+	 * @param   int               $delay      Seconds to wait between requests.
+	 * @return  bool|int                       Subscriber ID
+	 */
+	private function get_subscriber_id_by_email( $api, $email, $attempts = 3, $delay = 2 ) {
+
+		for ( $i = 0; $i < $attempts; $i++ ) {
+			$subscriber_id = $api->get_subscriber_id( $email );
+
+			// Don't retry if the request errored; logging is handled by the API class.
+			if ( is_wp_error( $subscriber_id ) ) {
+				return false;
+			}
+
+			if ( $subscriber_id ) {
+				return $subscriber_id;
+			}
+
+			// Don't sleep after the final attempt.
+			if ( $i < $attempts - 1 ) {
+				sleep( $delay );
+			}
+		}
+
+		return false;
 
 	}
 
