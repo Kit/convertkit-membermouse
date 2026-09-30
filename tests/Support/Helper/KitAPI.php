@@ -438,6 +438,42 @@ class KitAPI extends \Codeception\Module
 	}
 
 	/**
+	 * Waits until the given email address can be found by querying subscribers by email address,
+	 * which is subject to eventual consistency.
+	 *
+	 * @see     https://developers.kit.com/api-reference/eventual-consistency
+	 *
+	 * @since   1.4.8
+	 *
+	 * @param   EndToEndTester $I              Tester.
+	 * @param   string         $emailAddress   Email Address.
+	 */
+	public function apiWaitForSubscriberByEmail($I, $emailAddress)
+	{
+		$results = $this->retryUntil(
+			function () use ($emailAddress) {
+				$results = $this->apiRequest(
+					'subscribers',
+					'GET',
+					[
+						'email_address' => $emailAddress,
+						'status'        => 'all',
+					]
+				);
+
+				return count($results['subscribers']) ? $results : false;
+			},
+			10,
+			3
+		);
+
+		$I->assertNotFalse(
+			$results,
+			sprintf('The subscriber %s could not be found by email address in Kit.', $emailAddress)
+		);
+	}
+
+	/**
 	 * Repeatedly invokes the given callback until it returns a truthy value, or
 	 * the maximum number of attempts is reached.
 	 *
