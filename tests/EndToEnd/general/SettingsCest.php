@@ -418,7 +418,7 @@ class SettingsCest
 		$I->setupConvertKitPlugin($I);
 
 		// Logout.
-		$I->logOut();
+		$I->memberMouseLogOut($I);
 
 		// Attempt to exchange an authorization code without being logged in.
 		$I->amOnPage('/wp-admin/admin-ajax.php?action=convertkit-mm&page=convertkit-mm&code=fakeAuthorizationCode');
