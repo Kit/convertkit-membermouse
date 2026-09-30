@@ -212,14 +212,14 @@ class ConvertKit_MM_Admin {
 
 		// Return false if the tab isn't for this Plugin's OAuth callback.
 		$tab = sanitize_key( wp_unslash( $_REQUEST['tab'] ) );
-		if ( strpos( $tab, 'kit-oauth-' ) !== 0 ) {
+		if ( strpos( $tab, 'convertkit-mm-oauth-' ) !== 0 ) {
 			return false;
 		}
 
 		// phpcs:enable
 
 		// Return the nonce.
-		return substr( $tab, strlen( 'kit-oauth-' ) );
+		return substr( $tab, strlen( 'convertkit-mm-oauth-' ) );
 
 	}
 

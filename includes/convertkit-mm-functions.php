@@ -123,7 +123,7 @@ function convertkit_mm_get_oauth_return_url() {
 	return add_query_arg(
 		array(
 			'page' => 'convertkit-mm',
-			'tab'  => 'kit-oauth-' . wp_create_nonce( 'convertkit-mm-oauth-connect' ),
+			'tab'  => 'convertkit-mm-oauth-' . wp_create_nonce( 'convertkit-mm-oauth-connect' ),
 		),
 		admin_url( 'options-general.php' )
 	);
