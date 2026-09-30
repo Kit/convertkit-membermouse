@@ -111,7 +111,7 @@ class MemberCustomFieldsCest
 		$I->click('Change Membership');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);

@@ -98,7 +98,7 @@ class MemberTagCest
 		$I->click('Change Membership');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
@@ -155,7 +155,7 @@ class MemberTagCest
 		$I->click('Cancel Membership');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check that the subscriber has been assigned to the cancelled tag.
 		$I->apiCheckSubscriberHasTag(
@@ -208,7 +208,7 @@ class MemberTagCest
 		$I->click('Cancel Membership');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check that the subscriber is no longer assigned to the tag.
 		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
@@ -257,7 +257,7 @@ class MemberTagCest
 		$I->click('Delete Member');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check that the subscriber has been assigned to the cancelled tag.
 		$I->apiCheckSubscriberHasTag(
@@ -309,10 +309,7 @@ class MemberTagCest
 		$I->click('Delete Member');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups(
-			$I,
-			numberOfPopups: 2
-		);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check that the subscriber is no longer assigned to the tag.
 		$I->apiCheckSubscriberHasNoTags($I, $subscriber['id']);
@@ -368,10 +365,7 @@ class MemberTagCest
 		$I->click('Cancel Membership');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups(
-			$I,
-			numberOfPopups: 2
-		);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check that the subscriber has been assigned to the cancelled tag.
 		$I->apiCheckSubscriberHasTag(
@@ -399,10 +393,7 @@ class MemberTagCest
 		$I->click('Change Membership');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups(
-			$I,
-			numberOfPopups: 2
-		);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check that the subscriber has been assigned to the tag for the second membership level.
 		$I->apiCheckSubscriberHasTag(
@@ -489,10 +480,7 @@ class MemberTagCest
 		$I->click('Change Membership');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups(
-			$I,
-			numberOfPopups: 2
-		);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
@@ -554,7 +542,7 @@ class MemberTagCest
 		$I->click('Cancel Membership');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
 		$I->apiCheckSubscriberHasTag(
@@ -613,7 +601,7 @@ class MemberTagCest
 		$I->click('Delete Member');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 
 		// Check that the subscriber is still assigned to the first tag and has no additional tags.
 		$I->apiCheckSubscriberHasTag(
