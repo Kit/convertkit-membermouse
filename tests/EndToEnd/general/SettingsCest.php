@@ -45,14 +45,14 @@ class SettingsCest
 		$I->see('Connect');
 		$I->dontSee('Disconnect');
 
-		// Check that a link to the OAuth auth screen exists and includes the state parameter.
+		// Check that a link to the OAuth auth screen exists.
 		$I->seeInSource('<a href="https://app.kit.com/oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID'] . '&amp;response_type=code&amp;redirect_uri=' . urlencode( $_ENV['KIT_OAUTH_REDIRECT_URI'] ) );
-		$I->seeInSource(
-			'&amp;state=' . $I->apiEncodeState(
-				$_ENV['WORDPRESS_URL'] . '/wp-admin/options-general.php?page=convertkit-mm',
-				$_ENV['CONVERTKIT_OAUTH_CLIENT_ID']
-			)
-		);
+
+		// Check the state parameter returns to the settings screen, with a nonce.
+		$state = $I->apiDecodeStateFromOAuthURL($I->grabAttributeFrom('a[href*="oauth/authorize"]', 'href'));
+		$I->assertEquals($_ENV['CONVERTKIT_OAUTH_CLIENT_ID'], $state['client_id']);
+		$I->assertStringStartsWith($_ENV['WORDPRESS_URL'] . '/wp-admin/options-general.php?', $state['return_to']);
+		$I->assertStringContainsString('page=convertkit-mm&tab=kit-oauth-', $state['return_to']);
 
 		// Click the connect button.
 		$I->click('Connect');
@@ -402,6 +402,64 @@ class SettingsCest
 		$I->see('Settings saved.');
 		$I->seeOptionIsSelected('convertkit-mm-options[convertkit-mapping-bundle-' . $bundleID . ']', '(None)');
 		$I->seeOptionIsSelected('convertkit-mm-options[convertkit-mapping-bundle-' . $bundleID . '-cancel]', '(None)');
+	}
+
+	/**
+	 * Test that an authorization code is not exchanged for an access token when the request
+	 * is unauthenticated, as admin-ajax.php runs `init` in the admin context for logged out requests.
+	 *
+	 * @since   1.4.8
+	 *
+	 * @param   EndToEndTester $I  Tester.
+	 */
+	public function testAuthorizationCodeNotExchangedWhenUnauthenticated(EndToEndTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Logout.
+		$I->logOut();
+
+		// Attempt to exchange an authorization code without being logged in.
+		$I->amOnPage('/wp-admin/admin-ajax.php?action=convertkit-mm&page=convertkit-mm&code=fakeAuthorizationCode');
+		$I->amOnPage('/wp-admin/admin-ajax.php?action=convertkit-mm&page=convertkit-mm&tab=kit-oauth-invalid&code=fakeAuthorizationCode');
+
+		// Confirm the authorization code was not exchanged.
+		$I->apiCheckAuthorizationCodeNotExchanged($I);
+
+		// Confirm the credentials were not changed.
+		$settings = $I->grabOptionFromDatabase('convertkit-mm-options');
+		$I->assertEquals($_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'], $settings['access_token']);
+		$I->assertEquals($_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'], $settings['refresh_token']);
+	}
+
+	/**
+	 * Test that an authorization code is not exchanged for an access token when an
+	 * Administrator loads the settings screen without a valid nonce, such as from a
+	 * malicious link.
+	 *
+	 * @since   1.4.8
+	 *
+	 * @param   EndToEndTester $I  Tester.
+	 */
+	public function testAuthorizationCodeNotExchangedWithoutNonce(EndToEndTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Attempt to exchange an authorization code without a nonce.
+		$I->amOnAdminPage('options-general.php?page=convertkit-mm&code=fakeAuthorizationCode');
+
+		// Attempt to exchange an authorization code with an invalid nonce.
+		$I->amOnAdminPage('options-general.php?page=convertkit-mm&tab=kit-oauth-invalid&code=fakeAuthorizationCode');
+
+		// Confirm the authorization code was not exchanged.
+		$I->apiCheckAuthorizationCodeNotExchanged($I);
+
+		// Confirm the credentials were not changed.
+		$settings = $I->grabOptionFromDatabase('convertkit-mm-options');
+		$I->assertEquals($_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'], $settings['access_token']);
+		$I->assertEquals($_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'], $settings['refresh_token']);
 	}
 
 	/**

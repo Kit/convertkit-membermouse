@@ -64,7 +64,7 @@ class ConvertKit_MM_Admin_Notices {
 						esc_html__( 'Kit for MemberMouse: Authorization failed. Please', 'convertkit-mm' ),
 						sprintf(
 							'<a href="%s">%s</a>',
-							esc_url( $api->get_oauth_url( admin_url( 'options-general.php?page=convertkit-mm' ), get_site_url() ) ),
+							esc_url( $api->get_oauth_url( convertkit_mm_get_oauth_return_url(), get_site_url() ) ),
 							esc_html__( 'connect your Kit account.', 'convertkit-mm' )
 						)
 					);
