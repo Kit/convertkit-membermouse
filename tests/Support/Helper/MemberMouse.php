@@ -141,6 +141,7 @@ class MemberMouse extends \Codeception\Module
 	public function memberMouseUpdateMember($I, $emailAddress, $newEmailAddress, $newFirstName = false, $newLastName = false)
 	{
 		// Click account with current email address.
+		$I->waitForElementVisible('a[title="' . $emailAddress . '"]');
 		$I->click($emailAddress);
 
 		// Change email address and first name.
