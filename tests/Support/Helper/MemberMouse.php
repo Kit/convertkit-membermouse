@@ -121,7 +121,10 @@ class MemberMouse extends \Codeception\Module
 		// Accept popup once user created.
 		// We have to wait as there's no specific event MemberMouse fires to tell
 		// us it completed adding the member.
-		$I->memberMouseAcceptPopups($I, 1, 15);
+		$I->memberMouseAcceptPopups(
+			$I,
+			numberOfPopups: 1
+		);
 	}
 
 	/**
@@ -138,6 +141,7 @@ class MemberMouse extends \Codeception\Module
 	public function memberMouseUpdateMember($I, $emailAddress, $newEmailAddress, $newFirstName = false, $newLastName = false)
 	{
 		// Click account with current email address.
+		$I->waitForElementVisible('a[title="' . $emailAddress . '"]');
 		$I->click($emailAddress);
 
 		// Change email address and first name.
@@ -154,7 +158,10 @@ class MemberMouse extends \Codeception\Module
 		// Accept popup once user updated.
 		// We have to wait as there's no specific event MemberMouse fires to tell
 		// us it completed updating the member.
-		$I->memberMouseAcceptPopups($I, 1);
+		$I->memberMouseAcceptPopups(
+			$I,
+			numberOfPopups: 1
+		);
 	}
 
 	/**
@@ -184,7 +191,7 @@ class MemberMouse extends \Codeception\Module
 		$I->click('Comp ' . $bundleName);
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 	}
 
 	/**
@@ -205,7 +212,7 @@ class MemberMouse extends \Codeception\Module
 		$I->click('a[title="Cancel ' . $bundleName . '"]');
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2, 7);
+		$I->memberMouseAcceptPopups($I);
 	}
 
 	/**
@@ -230,7 +237,7 @@ class MemberMouse extends \Codeception\Module
 		$I->click('Comp ' . $bundleName);
 
 		// Accept popups.
-		$I->memberMouseAcceptPopups($I, 2);
+		$I->memberMouseAcceptPopups($I);
 	}
 
 	/**
@@ -291,19 +298,19 @@ class MemberMouse extends \Codeception\Module
 	 *
 	 * @since   1.2.8
 	 *
-	 * @param   EndToEndTester $I             Tester.
+	 * @param   EndToEndTester $I                     Tester.
 	 * @param   int            $numberOfPopups        Number of popups to accept.
-	 * @param   int            $waitInSeconds         Number of seconds to wait for each popup.
 	 */
-	public function memberMouseAcceptPopups($I, $numberOfPopups, $waitInSeconds = 5)
+	public function memberMouseAcceptPopups($I, $numberOfPopups = 2)
 	{
 		// We have to wait as there's no specific event MemberMouse fires to tell
 		// us it completed changing the membership level.
 		for ( $i = 1; $i <= $numberOfPopups; $i++) {
-			$I->wait($waitInSeconds);
+			// Wait for the popup.
+			$this->getModule('lucatume\WPBrowser\Module\WPWebDriver')->webDriver->wait(30)->until(
+				\Facebook\WebDriver\WebDriverExpectedCondition::alertIsPresent()
+			);
 			$I->acceptPopup();
 		}
-
-		$I->wait($waitInSeconds);
 	}
 }

@@ -110,6 +110,26 @@ function convertkit_mm_delete_credentials( $client_id ) {
 
 }
 
+/**
+ * Returns the URL Kit redirects to after OAuth authorization, including a nonce
+ * that is verified before the authorization code is exchanged for an access token.
+ *
+ * @since   1.4.8
+ *
+ * @return  string
+ */
+function convertkit_mm_get_oauth_return_url() {
+
+	return add_query_arg(
+		array(
+			'page'  => 'convertkit-mm',
+			'nonce' => wp_create_nonce( CONVERTKIT_MM_NONCE_ACTION_OAUTH_CONNECT ),
+		),
+		admin_url( 'options-general.php' )
+	);
+
+}
+
 // Update Access Token when refreshed by the API class.
 add_action( 'convertkit_api_get_access_token', 'convertkit_mm_maybe_update_credentials', 10, 2 );
 add_action( 'convertkit_api_refresh_token', 'convertkit_mm_maybe_update_credentials', 10, 2 );

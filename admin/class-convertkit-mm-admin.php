@@ -106,13 +106,40 @@ class ConvertKit_MM_Admin {
 			return;
 		}
 
-		// Bail if no authorization code is included in the request.
+		// Bail if no authorization code is included in the request, as this isn't an OAuth callback.
 		if ( ! array_key_exists( 'code', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
+		// Redirect to the settings screen if the user isn't permitted to manage settings.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'page' => 'convertkit-mm',
+					),
+					'options-general.php'
+				)
+			);
+			exit();
+		}
+
+		// Redirect with an error if the nonce is missing or invalid.
+		if ( ! isset( $_REQUEST['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), CONVERTKIT_MM_NONCE_ACTION_OAUTH_CONNECT ) ) {
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'page'              => 'convertkit-mm',
+						'error_description' => __( 'The Kit authorization request could not be verified. Please click Connect again.', 'convertkit-mm' ),
+					),
+					'options-general.php'
+				)
+			);
+			exit();
+		}
+
 		// Sanitize token.
-		$authorization_code = sanitize_text_field( wp_unslash( $_REQUEST['code'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		$authorization_code = sanitize_text_field( wp_unslash( $_REQUEST['code'] ) );
 
 		// Exchange the authorization code and verifier for an access token.
 		$api    = new ConvertKit_MM_API( CONVERTKIT_MM_OAUTH_CLIENT_ID, CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI );
@@ -154,6 +181,7 @@ class ConvertKit_MM_Admin {
 		exit();
 
 	}
+
 
 	/**
 	 * Test the access token, if it exists.
@@ -237,7 +265,12 @@ class ConvertKit_MM_Admin {
 		if ( ! isset( $_REQUEST['_convertkit_mm_settings_oauth_disconnect'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_mm_settings_oauth_disconnect'] ), 'convertkit-mm-oauth-disconnect' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_mm_settings_oauth_disconnect'] ), CONVERTKIT_MM_NONCE_ACTION_OAUTH_DISCONNECT ) ) {
+			return;
+		}
+
+		// Bail if the user isn't permitted to manage settings.
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
@@ -718,7 +751,7 @@ class ConvertKit_MM_Admin {
 						if ( ! $this->settings->has_access_and_refresh_token() ) {
 							// Determine the OAuth URL to begin the authorization process.
 							$api       = new ConvertKit_MM_API( CONVERTKIT_MM_OAUTH_CLIENT_ID, CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI );
-							$oauth_url = $api->get_oauth_url( admin_url( 'options-general.php?page=convertkit-mm' ), get_site_url() );
+							$oauth_url = $api->get_oauth_url( convertkit_mm_get_oauth_return_url(), get_site_url() );
 							?>
 							<p>
 								<a href="<?php echo esc_url( $oauth_url ); ?>" class="button button-primary"><?php esc_html_e( 'Connect', 'convertkit-mm' ); ?></a>
@@ -789,7 +822,7 @@ class ConvertKit_MM_Admin {
 				add_query_arg(
 					array(
 						'page' => 'convertkit-mm',
-						'_convertkit_mm_settings_oauth_disconnect' => wp_create_nonce( 'convertkit-mm-oauth-disconnect' ),
+						'_convertkit_mm_settings_oauth_disconnect' => wp_create_nonce( CONVERTKIT_MM_NONCE_ACTION_OAUTH_DISCONNECT ),
 					),
 					'options-general.php'
 				)

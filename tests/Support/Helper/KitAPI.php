@@ -28,6 +28,41 @@ class KitAPI extends \Codeception\Module
 	}
 
 	/**
+	 * Returns the decoded `state` parameter from the given OAuth authorization URL.
+	 *
+	 * @since   1.4.8
+	 *
+	 * @param   string $url    OAuth authorization URL.
+	 * @return  array
+	 */
+	public function apiDecodeStateFromOAuthURL($url)
+	{
+		parse_str( (string) parse_url($url, PHP_URL_QUERY), $args); // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
+		return json_decode(base64_decode(strtr($args['state'], '-_', '+/')), true);
+	}
+
+	/**
+	 * Check the Plugin did not exchange an authorization code for an access token.
+	 *
+	 * @since   1.4.8
+	 *
+	 * @param   EndToEndTester $I  EndToEndTester.
+	 */
+	public function apiCheckAuthorizationCodeNotExchanged($I)
+	{
+		// Get any requests the Plugin made to exchange an authorization code for an access token.
+		$requests = array_filter(
+			$this->grabKitAPIRequests($I, 'POST', 'oauth/token'),
+			function ($request) {
+				return array_key_exists('grant_type', $request['body']) && $request['body']['grant_type'] === 'authorization_code';
+			}
+		);
+
+		// Check the Plugin did not exchange the authorization code.
+		$I->assertCount(0, $requests, 'The Plugin exchanged an authorization code for an access token.');
+	}
+
+	/**
 	 * Returns an encoded `state` parameter compatible with OAuth.
 	 *
 	 * @since   1.3.0
@@ -435,6 +470,42 @@ class KitAPI extends \Codeception\Module
 
 		// Return JSON decoded response.
 		return json_decode($result->getBody()->getContents(), true);
+	}
+
+	/**
+	 * Waits until the given email address can be found by querying subscribers by email address,
+	 * which is subject to eventual consistency.
+	 *
+	 * @see     https://developers.kit.com/api-reference/eventual-consistency
+	 *
+	 * @since   1.4.8
+	 *
+	 * @param   EndToEndTester $I              Tester.
+	 * @param   string         $emailAddress   Email Address.
+	 */
+	public function apiWaitForSubscriberByEmail($I, $emailAddress)
+	{
+		$results = $this->retryUntil(
+			function () use ($emailAddress) {
+				$results = $this->apiRequest(
+					'subscribers',
+					'GET',
+					[
+						'email_address' => $emailAddress,
+						'status'        => 'all',
+					]
+				);
+
+				return count($results['subscribers']) ? $results : false;
+			},
+			10,
+			3
+		);
+
+		$I->assertNotFalse(
+			$results,
+			sprintf('The subscriber %s could not be found by email address in Kit.', $emailAddress)
+		);
 	}
 
 	/**

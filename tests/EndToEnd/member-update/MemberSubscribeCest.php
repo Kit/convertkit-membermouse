@@ -55,6 +55,9 @@ class MemberSubscribeCest
 		// Check subscriber exists.
 		$subscriber = $I->apiCheckSubscriberExists($I, $emailAddress);
 
+		// Wait until the subscriber can be found by email, as the Plugin looks them up by their previous email address.
+		$I->apiWaitForSubscriberByEmail($I, $emailAddress);
+
 		// Change the member's first name and email address.
 		$newFirstName    = 'New First Name';
 		$newLastName     = 'New Last Name';
