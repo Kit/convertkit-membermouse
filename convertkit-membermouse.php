@@ -37,6 +37,8 @@ define( 'CONVERTKIT_MM_PATH', plugin_dir_path( __FILE__ ) );
 define( 'CONVERTKIT_MM_VERSION', '1.4.7' );
 define( 'CONVERTKIT_MM_OAUTH_CLIENT_ID', 'U4aHnnj_QgRrZOdtWUJ6vtpulZSloLKn-7e551T-Exw' );
 define( 'CONVERTKIT_MM_OAUTH_CLIENT_REDIRECT_URI', 'https://app.kit.com/wordpress/redirect' );
+define( 'CONVERTKIT_MM_NONCE_ACTION_OAUTH_CONNECT', 'convertkit-mm-oauth-connect' );
+define( 'CONVERTKIT_MM_NONCE_ACTION_OAUTH_DISCONNECT', 'convertkit-mm-oauth-disconnect' );
 
 // Load shared classes, if they have not been included by another ConvertKit Plugin.
 if ( ! trait_exists( 'ConvertKit_API_Traits' ) && ! trait_exists( 'ConvertKit_API\ConvertKit_API_Traits' ) ) {
