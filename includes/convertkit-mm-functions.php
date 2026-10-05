@@ -112,7 +112,7 @@ function convertkit_mm_delete_credentials( $client_id ) {
 
 /**
  * Returns the URL Kit redirects to after OAuth authorization, including a nonce
- * in the `tab` parameter, which Kit's redirect preserves.
+ * that is verified before the authorization code is exchanged for an access token.
  *
  * @since   1.4.8
  *
@@ -122,8 +122,8 @@ function convertkit_mm_get_oauth_return_url() {
 
 	return add_query_arg(
 		array(
-			'page' => 'convertkit-mm',
-			'tab'  => 'convertkit-mm-oauth-' . wp_create_nonce( 'convertkit-mm-oauth-connect' ),
+			'page'  => 'convertkit-mm',
+			'nonce' => wp_create_nonce( CONVERTKIT_MM_NONCE_ACTION_OAUTH_CONNECT ),
 		),
 		admin_url( 'options-general.php' )
 	);

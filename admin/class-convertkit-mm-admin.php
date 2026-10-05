@@ -98,11 +98,16 @@ class ConvertKit_MM_Admin {
 	 */
 	private function maybe_get_and_store_access_token() {
 
-		// Get the nonce from the OAuth callback request.
-		$nonce = $this->get_oauth_callback_nonce();
+		// Bail if we're not on the settings screen.
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) {  // phpcs:ignore WordPress.Security.NonceVerification
+			return;
+		}
+		if ( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) !== 'convertkit-mm' ) {  // phpcs:ignore WordPress.Security.NonceVerification
+			return;
+		}
 
-		// Bail if the request isn't an OAuth callback.
-		if ( ! $nonce ) {
+		// Bail if no authorization code is included in the request, as this isn't an OAuth callback.
+		if ( ! array_key_exists( 'code', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -119,26 +124,13 @@ class ConvertKit_MM_Admin {
 			exit();
 		}
 
-		// Redirect with an error if nonce verification fails.
-		if ( ! wp_verify_nonce( $nonce, 'convertkit-mm-oauth-connect' ) ) {
+		// Redirect with an error if the nonce is missing or invalid.
+		if ( ! isset( $_REQUEST['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), CONVERTKIT_MM_NONCE_ACTION_OAUTH_CONNECT ) ) {
 			wp_safe_redirect(
 				add_query_arg(
 					array(
 						'page'              => 'convertkit-mm',
 						'error_description' => __( 'The Kit authorization request could not be verified. Please click Connect again.', 'convertkit-mm' ),
-					),
-					'options-general.php'
-				)
-			);
-			exit();
-		}
-
-		// Redirect to the settings screen if no authorization code is included in the request.
-		if ( ! array_key_exists( 'code', $_REQUEST ) ) {
-			wp_safe_redirect(
-				add_query_arg(
-					array(
-						'page' => 'convertkit-mm',
 					),
 					'options-general.php'
 				)
@@ -190,38 +182,6 @@ class ConvertKit_MM_Admin {
 
 	}
 
-	/**
-	 * Returns the nonce included in the OAuth callback request's `tab` parameter,
-	 * if the request is this Plugin's OAuth callback.
-	 *
-	 * @since   1.4.8
-	 *
-	 * @return  bool|string
-	 */
-	private function get_oauth_callback_nonce() {
-
-		// phpcs:disable WordPress.Security.NonceVerification
-
-		// Return false if the request isn't for the settings screen.
-		if ( ! isset( $_REQUEST['page'], $_REQUEST['tab'] ) ) {
-			return false;
-		}
-		if ( sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) !== 'convertkit-mm' ) {
-			return false;
-		}
-
-		// Return false if the tab isn't for this Plugin's OAuth callback.
-		$tab = sanitize_key( wp_unslash( $_REQUEST['tab'] ) );
-		if ( strpos( $tab, 'convertkit-mm-oauth-' ) !== 0 ) {
-			return false;
-		}
-
-		// phpcs:enable
-
-		// Return the nonce.
-		return substr( $tab, strlen( 'convertkit-mm-oauth-' ) );
-
-	}
 
 	/**
 	 * Test the access token, if it exists.
@@ -305,7 +265,7 @@ class ConvertKit_MM_Admin {
 		if ( ! isset( $_REQUEST['_convertkit_mm_settings_oauth_disconnect'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_mm_settings_oauth_disconnect'] ), 'convertkit-mm-oauth-disconnect' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_mm_settings_oauth_disconnect'] ), CONVERTKIT_MM_NONCE_ACTION_OAUTH_DISCONNECT ) ) {
 			return;
 		}
 
@@ -862,7 +822,7 @@ class ConvertKit_MM_Admin {
 				add_query_arg(
 					array(
 						'page' => 'convertkit-mm',
-						'_convertkit_mm_settings_oauth_disconnect' => wp_create_nonce( 'convertkit-mm-oauth-disconnect' ),
+						'_convertkit_mm_settings_oauth_disconnect' => wp_create_nonce( CONVERTKIT_MM_NONCE_ACTION_OAUTH_DISCONNECT ),
 					),
 					'options-general.php'
 				)
