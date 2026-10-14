@@ -43,7 +43,7 @@ Please report security bugs found in the source code of the plugin through the [
 
 == Changelog ==
 
-### 1.4.9 2026-10-14
+### 1.4.9 2026-10-15
 * Updated: WordPress Libraries to 2.8.0
 
 ### 1.4.8 2026-10-05
