@@ -5,14 +5,14 @@ namespace Tests;
 /**
  * Assertions for resource classes, that don't depend on which resources exist on the Kit account.
  *
- * @since   1.4.10
+ * @since   1.5.0
  */
 trait ResourceAssertionsTrait
 {
 	/**
 	 * Asserts that the given resources are sorted by the resource class' order_by and order properties.
 	 *
-	 * @since   1.4.10
+	 * @since   1.5.0
 	 *
 	 * @param   array $resources  Resources.
 	 */
@@ -34,7 +34,7 @@ trait ResourceAssertionsTrait
 	/**
 	 * Asserts that the given resources are in the same order as the resource class' resources.
 	 *
-	 * @since   1.4.10
+	 * @since   1.5.0
 	 *
 	 * @param   array $resources  Resources.
 	 */

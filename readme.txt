@@ -5,7 +5,7 @@ Tags: convertkit, email, marketing, membermouse
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.1
-Stable tag: 1.4.9
+Stable tag: 1.5.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,7 +15,7 @@ This plugin integrates Kit with Member Mouse.
 
 [Kit](https://kit.com) makes it easy to capture more leads and sell more products. This plugin makes it a little bit easier for those of us using Member Mouse to subscribe and tag customers that signup for memberships, products or bundles.
 
-**New to Kit? [Creating an account](https://app.kit.com/users/signup?plan=newsletter-free&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 10,000 subscribers, making Kit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
+**New to Kit? [Creating an account](https://app.kit.com/users/signup?plan=kit-free&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 10,000 subscribers, making Kit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
 
 == Installation ==
 
@@ -42,6 +42,9 @@ No. You must first have an account on [kit.com](https://kit.com?utm_source=wordp
 Please report security bugs found in the source code of the plugin through the [Patchstack Vulnerability Disclosure Program](https://patchstack.com/database/vdp/041009ed-912f-4a34-a358-73340fc8d26b). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 
 == Changelog ==
+
+### 1.5.0 2026-11-03
+* Updated: WordPress Libraries to 2.8.1
 
 ### 1.4.9 2026-10-15
 * Updated: WordPress Libraries to 2.8.0
